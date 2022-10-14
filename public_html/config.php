@@ -1,0 +1,1 @@
+<?php $dbuser = "ubdhllhxgdgbj"; $dbpass = "3e12531^$1%i"; $dbhost = "localhost"; $dbdatabase = "dbs4juonahgjht"; ?>
