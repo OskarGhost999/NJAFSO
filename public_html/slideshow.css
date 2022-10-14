@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Slider</title>
+</head>
+<body>
+<div class="slideshow-container">
+<span id="slider-image-1"></span>
+<span id="slider-image-2"></span>
+<span id="slider-image-3"></span>
+
+<div class="image-container">
+  <img src="mom-two-girls.jpeg" class="slider-image">
+  <img src="grandparent.jpeg" class="slider-image">
+  <img src="father-son.jpeg" class="slider-image">
+
+</div>
+<div class="button-container">
+  <a href="#slider-image-1" class="slider-button">
+  <a href="#slider-image-2" class="slider-button">
+  <a href="#slider-image-3" class="slider-button">
+<div>
+</body>
+</html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box;}
+body {font-family: Poppins, sans-serif;}
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  text-alight: center;
+}
+
+
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+
+<div class="slideshow-container">
+
+</body>
+</html> 
+
+--------------------------------------
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 100%;
+  position: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  text-alight: center;
+}
+
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+
+<div class="slideshow-container">
