@@ -175,6 +175,7 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
         
           <link rel="preconnect" href="https://fonts.googleapis.com">
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
           <div class="lead text-center"><h2>Reason for Call/Issues Disscused:</h2></div>
             <ul class="list-group">
               <li class="list-group-item">
@@ -324,7 +325,7 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
               </div>
             </div>
             <div class="text-center">
-              <button class="btn btn-secondary btn-lg" type="button" name="register">Submit</button>
+            <input class="btn btn-secondary btn-lg" type="submit" name="register"/>
             </div>
             </br>
             </br>
