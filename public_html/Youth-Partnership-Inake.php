@@ -318,10 +318,10 @@ if($_POST){
 		$result = $stmt->execute($params);
     verify_sql($stmt);
     if($result){
-      echo "Youth registered  successful";
+      echo "<br>Youth registered  successfully";
       }
       else{
-          echo"Registration error: youth";
+          echo "<br>Registration error: youth";
       }
 						
 		$youth_id = intval($db->lastInsertId());
@@ -341,10 +341,10 @@ if($_POST){
 		$result = $stmt->execute($params);
     verify_sql($stmt);
     if($result){
-      echo "Caregiver registered  successful";
+      echo "<br>Caregiver registered  successfully";
       }
       else{
-          echo"Registration error: caregiver";
+          echo "<br>Registration error: caregiver";
       }
 					
 						
@@ -355,18 +355,25 @@ if($_POST){
 		
 		$address1 = $_POST["street"] . " " . $_POST["inputCity"] . " " . $_POST["inputState"];
 		
-		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :city, :zip, :county, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `address` (address1, city, zip, county)
+                        VALUES (:address1, :city, :zip, :county)");
 
 		$params = array(
       ":address1"=> $_POST["street"], 
-      ":address2"=> NULL, 
+      //":address2"=> NULL, 
       ":city" => $_POST["inputCity"],
       ":zip"=> $_POST["inputZip"],
       ":county"=> $_POST["inputCounty"]
       );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "<br>Youth address registered  successfully";
+      }
+      else{
+          echo "<br>Registration error: youth address";
+      }
 						
 		$youth_addr = intval($db->lastInsertId());
 		
@@ -374,12 +381,24 @@ if($_POST){
 		
 		$address1 = $_POST["Schoolstreet"] . " " . $_POST["Schoolcity"] . " " . $_POST["Schoolstate"];
 		
-		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :zip, :county, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `address` (address1, city, zip, county)
+                        VALUES (:address1, :city, :zip, :county)");
 
-		$params = array(":address1"=> $address1, ":address2"=> NULL, ":zip"=> $_POST["Schoolzip"],":county"=> $_POST["Schoolcounty"]);
+		$params = array(
+      ":address1"=> $_POST["Schoolstreet"], 
+      ":city"=> $_POST["Schoolcity"], 
+      ":zip"=> $_POST["Schoolzip"],
+      ":county"=> $_POST["Schoolcounty"]
+      );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "<br>School address registered  successfully";
+      }
+      else{
+          echo "<br>Registration error: school address";
+      }
 						
 		$shool_addr = intval($db->lastInsertId());
 		
@@ -388,18 +407,25 @@ if($_POST){
 		$address1 = $_POST["Parentstreet"] . " " . $_POST["Parentcity"] . " " . $_POST["Parentstate"];
     $address1 = $_POST["Parentstreet"];
 		
-		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :city, :zip, :county, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `address` (address1, city, zip, county)
+                        VALUES (:address1, :city, :zip, :county)");
 
 		$params = array(
       ":address1"=> $_POST["Parentstreet"], 
-      ":address2"=> NULL, 
+      //":address2"=> NULL, 
       ":city" => $_POST["Parentcity"],
       ":zip"=> $_POST["Parentzip"],
       ":county"=> $_POST["Parentcounty"]
     );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "<br>Parent address registered  successfully";
+      }
+      else{
+          echo "<br>Registration error: parent address";
+      }
 						
 		$parent_addr = intval($db->lastInsertId());
 		
@@ -441,7 +467,7 @@ if($_POST){
 			else{
 				$general_str = NULL;
 			}
-		var_dump($_POST);
+		//var_dump($_POST);
 		$stmt = $db->prepare("INSERT INTO `youth_intake`
                         VALUES (:cmo_option, :education_level,:grade,:school_name, :health_name, :parent_relationship, :personal_goals, :first_career,
 						:second_career,:learning_intrests,:general_intrests, :youth_address ,:school_address,:parent_address,
@@ -453,21 +479,46 @@ if($_POST){
 						":learning_intrests"=> $learning_str,":general_intrests"=> $general_str, ":youth_address"=> $youth_addr, ":school_address"=> $shool_addr,
 						":parent_address"=> $parent_addr, ":youth_person"=> $youth_id, ":parent_person"=> $parent_id, ":u_id"=>intval($_SESSION["ID"]) );
 		
-		$stmt->execute($params);
-		echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "<br>Youth intake registered  successfully";
+      }
+      else{
+          echo "<br>Registration error: youth intake";
+      }
+		//echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 		$id = intval($db->lastInsertId());
 
-		$stmt1 = $db->prepare("INSERT INTO `emergency_contact` VALUES (:name, :phone, :Relationship, :youth_id, DEFAULT)");
+		$stmt1 = $db->prepare("INSERT INTO `emergency_contact` (name, phone, Relationship, youth_id)
+                          VALUES (:name, :phone, :Relationship, :youth_id)");
 
-		$params1 = array(":name"=> $_POST["EmergencyName"],":phone"=> $_POST["EmergencyPhone"],":Relationship"=> $_POST["EmergencyRelationship"],
-						":youth_id"=> $id);
-		$stmt1->execute($params1);
+		$params1 = array(
+      ":name"=> $_POST["EmergencyName"],
+      ":phone"=> $_POST["EmergencyPhone"],
+      ":Relationship"=> $_POST["EmergencyRelationship"],
+			":youth_id"=> $id
+      );
+
+		$result = $stmt1->execute($params1);
+    verify_sql($stmt);
+    if($result){
+      echo "<br>Emergency contacts registered  successfully";
+      }
+      else{
+          echo "<br>Registration error: emergency contacts";
+      }
 		
 		if($_POST["EmergencyName"]){
-			$stmt1 = $db->prepare("INSERT INTO `emergency_contact` VALUES (:name, :phone, :Relationship, :youth_id, DEFAULT)");
+			$stmt1 = $db->prepare("INSERT INTO `emergency_contact` (name, phone, Relationship, youth_id)
+                              VALUES (:name, :phone, :Relationship, :youth_id)");
 
-			$params1 = array(":name"=> $_POST["EmergencyName2"],":phone"=> $_POST["EmergencyPhone2"],":Relationship"=> $_POST["EmergencyRelationship2"],
-							":youth_id"=> $id);
+			$params1 = array(
+        ":name"=> $_POST["EmergencyName2"],
+        ":phone"=> $_POST["EmergencyPhone2"],
+        ":Relationship"=> $_POST["EmergencyRelationship2"],
+				":youth_id"=> $id
+        );
 			$stmt1->execute($params1);
 		}
 

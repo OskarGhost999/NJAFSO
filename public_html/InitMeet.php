@@ -170,7 +170,7 @@ function verify_sql($stmt){
 			echo $e->getMessage();
 			exit();
 			}
-	}
+	} 
 
 
 
