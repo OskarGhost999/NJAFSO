@@ -32,7 +32,21 @@
 </head>
  
 <?php
-    include_once('navbar.php');
+ini_set('display_errors',1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include_once('navbar.php');
+function verify_sql($stmt){
+    if(!isset($stmt)){
+        throw new Exception("stmt object is undefined");
+    }
+    $e = $stmt->errorInfo();
+    if($e[0] != '00000'){
+        $error = var_export($e, true);
+        error_log($error);
+        throw new Exception("SQL Error: $error");
+    }
+}
 ?>
 <body>
   <br><bh>Youth Partnership Intake Form</bh><br><br>
@@ -250,7 +264,7 @@
       <label for="Other General Intrests">Other General Interests:</label><br>
       <textarea form="mainForm" name="GeneralInterests[]" rows="5" cols="80"></textarea>
       <br>
-      <input type="submit" value="Submit"><>
+      <input type="submit" value="Submit"><
       <br>
     </form>
   </div>
@@ -289,29 +303,50 @@ if($_POST){
 		$db = new PDO($connection_string, $dbuser, $dbpass);
 		
 		#Youth info
-		$stmt = $db->prepare("INSERT INTO `personal_info`
-                        VALUES (:firstname, :lastname, :prefix, :middlename, :gender, :dob, :race, 
-						:home_phone,:cell_phone, :email, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `youth`
+                        VALUES (:firstname, :lastname, :email, :dob, :home_phone, :cell_phone, DEFAULT, DEFAULT)");
 
-		$params = array(":firstname"=> $_POST["firstName"],":lastname"=> $_POST["lastName"], ":prefix"=> NULL,
-						":middlename"=> NULL,":email"=> $_POST["email"], ":dob"=> $_POST["DOB"], 
-						":gender"=> NULL, ":race"=> NULL, ":home_phone"=>$_POST["homePhone"], ":cell_phone"=>$_POST["cellPhone"]);
+		$params = array(
+      ":firstname"=> $_POST["firstName"],
+      ":lastname"=> $_POST["lastName"], 
+      ":email"=> $_POST["email"], 
+      ":dob"=> $_POST["DOB"], 
+      ":home_phone"=> $_POST["homePhone"], 
+      ":cell_phone"=> $_POST["cellPhone"]
+      );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "Youth registered  successful";
+      }
+      else{
+          echo"Registration error: youth";
+      }
 						
 		$youth_id = intval($db->lastInsertId());
 		
 		#Parent Info
 		
-		$stmt = $db->prepare("INSERT INTO `personal_info`
-                        VALUES (:firstname, :lastname, :prefix, :middlename, :gender, :dob, :race, 
-						:home_phone,:cell_phone, :email, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `youth_caregiver`
+                        VALUES (:firstname, :lastname, :email, :cell_phone, DEFAULT, DEFAULT)");
 
-		$params = array(":firstname"=> $_POST["ParentfirstName"],":lastname"=> $_POST["ParentLastName"], ":prefix"=> NULL,
-						":middlename"=> NULL,":email"=> $_POST["ParentEmail"], ":dob"=> NULL, 
-						":gender"=> NULL, ":race"=> NULL, ":home_phone"=>NULL, ":cell_phone"=>$_POST["ParentPhone"]);
+		$params = array(
+      ":firstname"=> $_POST["ParentfirstName"],
+      ":lastname"=> $_POST["ParentLastName"], 
+      ":email"=> $_POST["ParentEmail"], 
+      ":cell_phone"=> $_POST["ParentPhone"]
+      );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "Caregiver registered  successful";
+      }
+      else{
+          echo"Registration error: caregiver";
+      }
+					
 						
 		$parent_id = intval($db->lastInsertId());
 		
@@ -321,9 +356,15 @@ if($_POST){
 		$address1 = $_POST["street"] . " " . $_POST["inputCity"] . " " . $_POST["inputState"];
 		
 		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :zip, :county, DEFAULT)");
+                        VALUES (:address1, :address2, :city, :zip, :county, DEFAULT)");
 
-		$params = array(":address1"=> $address1, ":address2"=> NULL, ":zip"=> $_POST["inputZip"],":county"=> $_POST["inputCounty"]);
+		$params = array(
+      ":address1"=> $_POST["street"], 
+      ":address2"=> NULL, 
+      ":city" => $_POST["inputCity"],
+      ":zip"=> $_POST["inputZip"],
+      ":county"=> $_POST["inputCounty"]
+      );
 						
 		$stmt->execute($params);
 						
@@ -345,11 +386,18 @@ if($_POST){
 		#Parent Address
 		
 		$address1 = $_POST["Parentstreet"] . " " . $_POST["Parentcity"] . " " . $_POST["Parentstate"];
+    $address1 = $_POST["Parentstreet"];
 		
 		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :zip, :county, DEFAULT)");
+                        VALUES (:address1, :address2, :city, :zip, :county, DEFAULT)");
 
-		$params = array(":address1"=> $address1, ":address2"=> NULL, ":zip"=> $_POST["Parentzip"],":county"=> $_POST["Parentcounty"]);
+		$params = array(
+      ":address1"=> $_POST["Parentstreet"], 
+      ":address2"=> NULL, 
+      ":city" => $_POST["Parentcity"],
+      ":zip"=> $_POST["Parentzip"],
+      ":county"=> $_POST["Parentcounty"]
+    );
 						
 		$stmt->execute($params);
 						

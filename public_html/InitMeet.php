@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors',1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require("config.php");
 session_start();
 
@@ -11,6 +14,18 @@ session_start();
 
 $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 $db= new PDO($connection_string, $dbuser, $dbpass);
+function verify_sql($stmt){
+  if(!isset($stmt)){
+      throw new Exception("stmt object is undefined");
+  }
+  $e = $stmt->errorInfo();
+  if($e[0] != '00000'){
+      $error = var_export($e, true);
+      error_log($error);
+      throw new Exception("SQL Error: $error");
+  }
+}
+
 
 
  ?>
@@ -61,7 +76,10 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
         <option value="Outreach Coordinator">Outreach Coordinator</option>
         <option value="Youth Coach">Youth Coach</option>
       </select>
-			<br>
+		<br>
+		<label for="Date of Meeting">Date of Meeting:</label>
+      <input type="date" name="date">
+	  <br>
       <label for="TypeofMeeting">Type of Meeting:</label>
       <select name="TypeofMeeting" required>
       <option disabled selected>--Select--</option>
@@ -128,18 +146,30 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
 
 		try{
 			$stmt = $db->prepare("INSERT INTO `fso_meeting`
-                        VALUES (:meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id)");
-			$params = array(":meeting_person"=> $_POST["MeetingPersons"],":meeting_type"=> $_POST["TypeofMeeting"], ":contact_location"=> $_POST["ContactLocation"],
-							":time_spent"=> $_POST["TimeSpent"],":meeting_notes"=> $_POST["Notes2"], ":fso_id"=> $data1['fso_id']);
+                        VALUES (:date, :meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id, DEFAULT, DEFAULT)");
+			$params = array(
+				":date" => $_POST["date"],
+				":meeting_person"=> $_POST["MeetingPersons"],
+				":meeting_type"=> $_POST["TypeofMeeting"], 
+				":contact_location"=> $_POST["ContactLocation"],
+				":time_spent"=> $_POST["TimeSpent"],
+				":meeting_notes"=> $_POST["Notes2"], 
+				":fso_id"=> $data1['fso_id']);
 
-			$stmt->execute($params);
-			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-		}
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "Successfully submitted";
+      }
+      else{
+          echo "Submission error";
+      }
 
-		catch(Exception $e){
-                echo $e->getMessage();
-                exit();
-        }
+
+	} catch(Exception $e){
+			echo $e->getMessage();
+			exit();
+			}
 	}
 
 

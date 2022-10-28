@@ -126,6 +126,8 @@
 
 	echo "<td> Meeting ID </td>";
 
+	echo "<td> Date </td>";
+
 	echo "<td> FSO </td>";
 
 	echo "<td> Type of Meeting </td>";
@@ -174,7 +176,7 @@
 
 
 
-		#var_dump($data);
+		//var_dump($data);
 
 
 
@@ -187,6 +189,8 @@
 			echo "<tr>";
 
 			echo "<td>" . $row["meet_id"] . "</td>";
+
+			echo "<td>" . $row["date"] . "</td>";
 
 			echo "<td>" . $data2[0]["name"] . "</td>";
 

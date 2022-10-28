@@ -58,6 +58,9 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
 <body>
   <bh>FSO Meeting and Training Attendance</bh><br><br>
     <form class="col" name="meeting" id="meeting" method="POST">
+      <label for="Date of Meeting">Date of Meeting:</label>
+      <input type="date" name="date">
+      <br>
       <label for="TypeofMeeting2">Type of Meeting/Training:</label>
       <select name="TypeofMeeting2" required>
       <option disabled selected>--Select--</option>
@@ -119,9 +122,15 @@ ini_set('display_errors', 1);
 
 		try{
 			$stmt = $db->prepare("INSERT INTO `outmeet`
-                        VALUES (DEFAULT,:fso_id,:meeting_type, :meeting_location,:number_people, :notes)");
-			$params = array(":fso_id"=> $data1['fso_id'],":meeting_type"=> $_POST["TypeofMeeting2"], ":meeting_location"=> $_POST["MeetingLocation"],
-							":number_people"=> $_POST["NumOfAttend"],":notes"=> $_POST["notes"]);
+                        VALUES (DEFAULT,:fso_id, :date, :meeting_type, :meeting_location,:number_people, :notes, DEFAULT, DEFAULT)");
+			$params = array(
+        ":fso_id"=> $data1['fso_id'],
+        ":date" => $_POST["date"],
+        ":meeting_type"=> $_POST["TypeofMeeting2"], 
+        ":meeting_location"=> $_POST["MeetingLocation"],
+				":number_people"=> $_POST["NumOfAttend"],
+        ":notes"=> $_POST["notes"]
+        );
 			
 			$stmt->execute($params);
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";

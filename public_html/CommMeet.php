@@ -72,6 +72,9 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
         <br>
       </select>
       <br>
+      <label for="Date of Meeting">Date of Meeting:</label>
+      <input type="date" name="date">
+      <br>
       <label for="TypeofMeeting">Type of Meeting:</label>
       <select name="TypeofMeeting">
       <option disabled selected>--Select--</option>
@@ -140,9 +143,17 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
 
 		try{
 			$stmt = $db->prepare("INSERT INTO `comm_meet`
-                        VALUES (DEFAULT,:fso_id, :meeting_person, :meeting_type,:contact_location,:number_people,:time_spent,:meeting_notes)");
-			$params = array(":fso_id"=> $data1['fso_id'],":meeting_person"=> $_POST["MeetingPersons"],":meeting_type"=> $_POST["TypeofMeeting"],":number_people"=> $_POST["numppl"], ":contact_location"=> $_POST["ContactLocation"],
-							":time_spent"=> $_POST["TimeSpent"],":meeting_notes"=> $_POST["Notes2"]);
+                        VALUES (DEFAULT,:fso_id, :date, :meeting_person, :meeting_type,:contact_location,:number_people,:time_spent,:meeting_notes, DEFAULT, DEFAULT)");
+			$params = array(
+				":fso_id"=> $data1['fso_id'],
+				":date" => $_POST["date"],
+				":meeting_person"=> $_POST["MeetingPersons"],
+				":meeting_type"=> $_POST["TypeofMeeting"],
+				":number_people"=> $_POST["numppl"], 
+				":contact_location"=> $_POST["ContactLocation"],
+				":time_spent"=> $_POST["TimeSpent"],
+				":meeting_notes"=> $_POST["Notes2"]
+        );
 			
 			$stmt->execute($params);
 			echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";

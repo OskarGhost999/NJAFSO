@@ -129,6 +129,8 @@
 
 	echo "<td> Meeting ID </td>";
 
+    echo "<td> Date </td>"; 
+
 	echo "<td> FSO </td>";
 
 	echo "<td> Who attended the meeting </td>";
@@ -192,6 +194,8 @@
 			echo "<tr>";
 
 			echo "<td>" . $row["meeting_id"] . "</td>";
+
+            echo "<td>" . $row["date"] . "</td>";
 
 			echo "<td>" . $data2[0]["name"] . "</td>";
 

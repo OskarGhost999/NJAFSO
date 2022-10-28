@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors',1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require("config.php");
 session_start();
 
@@ -76,6 +80,17 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
   </head>
   <?php
       include_once('navbar.php');
+      function verify_sql($stmt){
+        if(!isset($stmt)){
+            throw new Exception("stmt object is undefined");
+        }
+        $e = $stmt->errorInfo();
+        if($e[0] != '00000'){
+            $error = var_export($e, true);
+            error_log($error);
+            throw new Exception("SQL Error: $error");
+        }
+     }
   ?>
 
     <div class="col">
@@ -110,6 +125,8 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
       <input id="Address1" name="Address1" placeholder="Address 1"/ required><br>
       <label for="Address2">Address 2: </label>
       <input id="Address2" name="Address2" placeholder="Address 2"/><br>
+      <label for="city">City: </label>
+      <input id="city" name="city" placeholder="City"/><br>
       <label for="zipCode">Zip Code: </label>
       <input id="zipCode" name="zipCode" placeholder="Zip Code"/ required><br>
       <label for="email">Email: </label>
@@ -305,28 +322,64 @@ if($_POST){
 	try{
 		$db = new PDO($connection_string, $dbuser, $dbpass);
 		
-		$stmt = $db->prepare("INSERT INTO `personal_info`
-                        VALUES (:firstname, :lastname, :prefix, :middlename, :gender, :dob, :race, 
-						:home_phone,:cell_phone, :email, DEFAULT)");
+		$stmt = $db->prepare("INSERT INTO `address`
+                        VALUES (:address1, :address2, :city, :zip, :county, DEFAULT, DEFAULT, DEFAULT)");
 
-		$params = array(":firstname"=> $_POST["firstName"],":lastname"=> $_POST["lastName"], ":prefix"=> $_POST["prefix"],
-						":middlename"=> $_POST["middleName"],":email"=> $_POST["email"], ":dob"=> $_POST["DOB"], 
-						":gender"=> $_POST["Gender"], ":race"=> $_POST["race"], ":home_phone"=>NULL, ":cell_phone"=>$_POST["homePhone"]);
+		$params = array(
+      ":address1"=> $_POST["Address1"], 
+      ":address2"=> $_POST["Address2"], 
+      ":city" => $_POST["city"],
+      ":zip"=> $_POST["zipCode"], 
+      ":county"=> NULL);
 						
-		$stmt->execute($params);
-						
-		$person_id = intval($db->lastInsertId());
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "Address registered successfully";
+      }
+      else{
+          echo "Registration error: address";
+      }
+												
+		$address_id = intval($db->lastInsertId());
 		
 		#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-		
-		$stmt = $db->prepare("INSERT INTO `address`
-                        VALUES (:address1, :address2, :zip, :county, DEFAULT)");
 
-		$params = array(":address1"=> $_POST["Address1"], ":address2"=> $_POST["Address2"], ":zip"=> $_POST["zipCode"], ":county"=> NULL);
+    $stmt = $db->prepare("INSERT INTO `personal_info`
+                    VALUES (:firstname, :lastname, :prefix, :middlename, :gender, :dob, :race, 
+                    :home_phone, :email, :maritalstatus, :referred,:familymemberrole, :primarylanguage, 
+                    :otherlanguage, :childrenreceivingservices, :address_id, DEFAULT)");
+
+		$params = array(
+      ":firstname"=> $_POST["firstName"],
+      ":lastname"=> $_POST["lastName"], 
+      ":prefix"=> $_POST["prefix"],
+			":middlename"=> $_POST["middleName"],
+      ":dob"=> $_POST["DOB"], 
+			":gender"=> $_POST["Gender"], 
+      ":race"=> $_POST["race"], 
+      ":home_phone"=>$_POST["homePhone"], 
+      ":email"=> $_POST["email"], 
+      ":maritalstatus"=> $_POST["maritalStatus"], 
+      ":referred"=> $_POST["referedby"],
+			":familymemberrole"=> $_POST["familyMemberRole"], 
+      ":primarylanguage"=> $_POST["PriamryLanguage"], 
+      ":otherlanguage"=> $_POST["OtherLanguage"],
+			":childrenreceivingservices"=> $_POST["ChildrenReceivingServices"],
+      //":cell_phone"=>$_POST["homePhone"]
+      ":address_id" => $address_id
+      );
 						
-		$stmt->execute($params);
+		$result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result){
+      echo "Family registered successfully";
+      }
+      else{
+          echo "Registration error: family";
+      }
 						
-		$address_id = intval($db->lastInsertId());
+		$person_id = intval($db->lastInsertId());
 		
 		#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 
@@ -344,12 +397,25 @@ if($_POST){
 								:childrenreceivingservices, :cybernumber,:childlevelcare,:childplacement,:childDiagnosis,
 								:childenrollmentedate, :cmodischargedate, :cmostatus, :dcppinvolvement, :courtinvolvement, :uid, :address_id, :person_id)");
 
-		$params = array(":maritalstatus"=> $_POST["maritalStatus"], ":referred"=> $_POST["referedby"],
-						":familymemberrole"=> $_POST["familyMemberRole"], ":primarylanguage"=> $_POST["PriamryLanguage"], ":otherlanguage"=> $_POST["OtherLanguage"],
-						":childrenreceivingservices"=> $_POST["ChildrenReceivingServices"],":cybernumber"=> $_POST["CyberNumber"],":childlevelcare"=> $_POST["childsLevelofCare"],
-						":childplacement"=> $_POST["ChildsPlacement"],":childDiagnosis"=> $child_str,":childenrollmentedate"=> $_POST["ChildEnrollmentDate"],
-						":cmodischargedate"=> $_POST["CMODischargeDate"],":cmostatus"=> $_POST["CMODischargeStatus"],":dcppinvolvement"=> $_POST["DCPP"],":courtinvolvement"=> $_POST["CourtInvolvement"], 
-						":uid"=>intval($_SESSION["ID"]), ":address_id"=> $address_id, ":person_id"=> $person_id );
+		$params = array(
+      ":maritalstatus"=> $_POST["maritalStatus"], 
+      ":referred"=> $_POST["referedby"],
+			":familymemberrole"=> $_POST["familyMemberRole"], 
+      ":primarylanguage"=> $_POST["PriamryLanguage"], 
+      ":otherlanguage"=> $_POST["OtherLanguage"],
+			":childrenreceivingservices"=> $_POST["ChildrenReceivingServices"],
+      ":cybernumber"=> $_POST["CyberNumber"],
+      ":childlevelcare"=> $_POST["childsLevelofCare"],
+			":childplacement"=> $_POST["ChildsPlacement"],
+      ":childDiagnosis"=> $child_str,
+      ":childenrollmentedate"=> $_POST["ChildEnrollmentDate"],
+			":cmodischargedate"=> $_POST["CMODischargeDate"],
+      ":cmostatus"=> $_POST["CMODischargeStatus"],
+      ":dcppinvolvement"=> $_POST["DCPP"],
+      ":courtinvolvement"=> $_POST["CourtInvolvement"], 
+			":uid"=>intval($_SESSION["ID"]), 
+      ":address_id"=> $address_id, 
+      ":person_id"=> $person_id );
 		}
 
 		else {
@@ -382,7 +448,7 @@ if($_POST){
         }
         catch(Exception $e){
                 echo $e->getMessage();
-                exit();
+                //exit();
         }
 	}
 
