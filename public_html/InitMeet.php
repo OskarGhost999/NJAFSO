@@ -3,7 +3,7 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require("config.php");
-session_start();
+//session_start();
 
 	if(!(isset($_SESSION['role']))){
   header("Location: index.php");
@@ -25,11 +25,7 @@ function verify_sql($stmt){
       throw new Exception("SQL Error: $error");
   }
 }
-
-
-
- ?>
-
+?>
 <!DOCTYPE html>
 <html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,43 +131,52 @@ function verify_sql($stmt){
 
 
 <?php
-	if($_POST){
+// quick implementation
+if($_POST){
 
-		$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
-		$stmt = $db->prepare('SELECT fso_id FROM users WHERE id=:id');
-		$stmt->execute(['id' => intval($_SESSION["ID"])]);
-		$data1 = $stmt->fetch();
+	if (!empty($_POST["date"]) && !empty($_POST["MeetingPersons"]) && !empty($_POST["TypeofMeeting"]) 
+		&& !empty($_POST["TimeSpent"]) && !empty($_POST["ContactLocation"])) {
+			
+			//$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
+			//$stmt = $db->prepare('SELECT fso_id FROM users WHERE id=:id');
+			//$stmt->execute(['id' => intval($_SESSION["ID"])]);
+			//$data1 = $stmt->fetch();
 
-		#var_dump($data1);
+			#var_dump($data1);
 
-		try{
-			$stmt = $db->prepare("INSERT INTO `fso_meeting`
-                        VALUES (:date, :meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id, DEFAULT, DEFAULT)");
-			$params = array(
-				":date" => $_POST["date"],
-				":meeting_person"=> $_POST["MeetingPersons"],
-				":meeting_type"=> $_POST["TypeofMeeting"], 
-				":contact_location"=> $_POST["ContactLocation"],
-				":time_spent"=> $_POST["TimeSpent"],
-				":meeting_notes"=> $_POST["Notes2"], 
-				":fso_id"=> $data1['fso_id']);
+			try{
+				$stmt = $db->prepare("INSERT INTO `fso_meeting`
+							VALUES (:date, :meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id, DEFAULT, DEFAULT)");
+				$params = array(
+					":date" => $_POST["date"],
+					":meeting_person"=> $_POST["MeetingPersons"],
+					":meeting_type"=> $_POST["TypeofMeeting"], 
+					":contact_location"=> $_POST["ContactLocation"],
+					":time_spent"=> $_POST["TimeSpent"],
+					":meeting_notes"=> $_POST["Notes2"], 
+					":fso_id"=> $_SESSION["fso_id"]);
+					
+					$result = $stmt->execute($params);
+					verify_sql($stmt);
+					if($result){
+					Common::flash("Successfully submitted", "success");
+					}
+					else{
+						Common::flash("Submission error", "danger");
+					}
 
-		$result = $stmt->execute($params);
-    verify_sql($stmt);
-    if($result){
-      echo "Successfully submitted";
-      }
-      else{
-          echo "Submission error";
-      }
+					} catch(Exception $e){
+							echo $e->getMessage();
+							exit();
+							}
 
+	} else {
+		Common::flash("Fields must not be empty", "warning");
+	}
 
-	} catch(Exception $e){
-			echo $e->getMessage();
-			exit();
-			}
-	} 
+echo "<script> ; window.location.href='InitMeet.php'; </script>";
+//die(header("Location: InitMeet.php"));
 
-
+}
 
  ?>

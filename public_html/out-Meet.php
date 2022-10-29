@@ -1,8 +1,8 @@
 <?php
 
-session_start();
+//session_start();
 
-require ("config.php");
+//require ("config.php");
 
 if(!(isset($_SESSION['role']))){
 
@@ -16,8 +16,10 @@ if(!($_SESSION['role']>=0)){
 
 }
 
-$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-$db= new PDO($connection_string, $dbuser, $dbpass);
+//$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
+//$db= new PDO($connection_string, $dbuser, $dbpass);
+
+//echo "FSO_ID IS: " . $_SESSION["fso_id"];
 
 ?>
 
@@ -107,7 +109,39 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
 </html>
 
 <?php
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+// modular implementation
+if (Common::get($_POST, "submit", false)) {
+
+    $date = Common::get($_POST, "date", false);
+    $meetingType = Common::get($_POST, "TypeofMeeting2", false);
+    $meetingLocation = Common::get($_POST, "MeetingLocation", false);
+    $numPeople = Common::get($_POST, "NumOfAttend", false);
+    $notes = Common::get($_POST, "notes", false);
+    $fso_id = Common::get($_SESSION, "fso_id", false);
+
+    if(!empty($date) && !empty($meetingType) && !empty($meetingLocation) && !empty($numPeople)) {
+		
+        $result = DBL::submit_outmeet($date, $meetingType, $meetingLocation, $numPeople, $notes, $fso_id);
+        
+
+        if(Common::get($result, "status", 400) == 200){
+            Common::flash("Successfully submitted", "success");
+        }
+        else { 
+          // database error
+          echo var_export($result, true);
+          Common::flash("Submission error", "danger");
+          exit();
+        }
+    }
+    else{
+        Common::flash("Fields must not be empty", "warning");
+    }
+    echo "<script> ; window.location.href='out-Meet.php'; </script>";
+    //die(header("Location: out-Meet.php"));    // cannot modify header information error............
+}
+
+/*error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors', 1);
 	if($_POST){
 		
@@ -122,15 +156,9 @@ ini_set('display_errors', 1);
 
 		try{
 			$stmt = $db->prepare("INSERT INTO `outmeet`
-                        VALUES (DEFAULT,:fso_id, :date, :meeting_type, :meeting_location,:number_people, :notes, DEFAULT, DEFAULT)");
-			$params = array(
-        ":fso_id"=> $data1['fso_id'],
-        ":date" => $_POST["date"],
-        ":meeting_type"=> $_POST["TypeofMeeting2"], 
-        ":meeting_location"=> $_POST["MeetingLocation"],
-				":number_people"=> $_POST["NumOfAttend"],
-        ":notes"=> $_POST["notes"]
-        );
+                        VALUES (DEFAULT,:fso_id,:meeting_type, :meeting_location,:number_people, :notes)");
+			$params = array(":fso_id"=> $data1['fso_id'],":meeting_type"=> $_POST["TypeofMeeting2"], ":meeting_location"=> $_POST["MeetingLocation"],
+							":number_people"=> $_POST["NumOfAttend"],":notes"=> $_POST["notes"]);
 			
 			$stmt->execute($params);
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
@@ -140,7 +168,7 @@ ini_set('display_errors', 1);
                 echo $e->getMessage();
                 exit();
         }
-	}
+	}*/
 
 
 

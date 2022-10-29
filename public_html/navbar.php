@@ -1,3 +1,6 @@
+<?php
+require_once (__DIR__."/includes/common.php"); 
+?>
 
 <style>
   hotbox{
@@ -136,4 +139,13 @@
 
   </div>
   </nav>
+  <div id="messages">
+  <?php $flash_messages = Common::getFlashMessages();?>
+  <?php if(isset($flash_messages) && count($flash_messages) > 0):?>
+    <?php foreach($flash_messages as $msg):?>
+        <div class="alert alert-<?php echo Common::get($msg, "type");?>"><?php
+            echo Common::get($msg, "message");
+            ?></div>
+    <?php endforeach;?>
+  <?php endif;?>  
 </header>
