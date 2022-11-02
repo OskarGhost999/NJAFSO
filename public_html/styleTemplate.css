@@ -1,0 +1,35 @@
+/* Carried over from first team */
+bh {
+    font-weight: regular;
+    margin-right: 10px;
+    font-size: 40px;
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+} 
+/* Carried over from first team */
+table {
+    border-color:#004060;
+    border-width: 3px;
+}
+/* Carried over from first team */
+th, td {
+    padding: 8px;
+    border-width: 2px;
+}
+/* Sets card background color and centers card on screen */
+.card {
+    background-color: rgb(218, 237, 255);
+    margin: auto;
+}
+/* Vertical line for dividing table columns */
+.divider {
+    border-right: 1px solid;
+}
+/* Horizontal line for diving table rows */
+.rowBreak {
+    border-bottom: 2px solid!important;
+}
+/* Changes background color - use this for table headers */
+.accent {
+    background-color: rgb(140, 226, 255);
+}
