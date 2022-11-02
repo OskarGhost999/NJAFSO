@@ -37,8 +37,7 @@
       background-color: #e0f5f5;
     }
   </style>
-  <br>
-  <bh>Family Progress Notes</bh><br><br>
+  
   <head>
     <meta charset="utf-8">
     <title>Progress Notes</title>
@@ -53,6 +52,16 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
   <body style="background-color: #e0f5f5;">
+
+    <div class="lead text-center">
+        <h1 class="display-4">Family Progress Notes</h1>
+    </div>
+
+    <div class="col">
+	<div class = "container">
+	<div class = "card" style="background-color: #7dcbd4">
+      <div class = "card-body">
+
     <div class="col">
       <form name="mainForm" id= "mainForm" method="post" enctype="multipart/form-data">
 	  	<label>Select the Family:</label>
@@ -159,8 +168,11 @@
         </select>
         <br>
         <input type="file" id="myFile" name="filename"/><br><br>
-        <input type="submit">
+        <input type="submit" class = "btn btn-secondary">
       </form>
+    </div>
+    </div>
+    </div>
     </div>
   </body>
 </html>
