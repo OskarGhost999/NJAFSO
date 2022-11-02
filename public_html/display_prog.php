@@ -38,7 +38,10 @@
 			border-width: 2px;
 		}
 	</style>
-	<br><bh>Family Notes</bh><br>
+	
+	<div class="lead text-center">
+        <h1 class="display-4">Family Notes</h1>
+    </div>
 </html>
 
 <?php
