@@ -258,7 +258,9 @@ option {
 ?>
 <body> <!-- entire body is new code with pagination with the old form -->
       <div>
-        <h1>Youth Partnership Intake</h1>
+         <div class="lead text-center">
+        <h1 class="display-4">Youth Partnership Intake</h1>
+   	 </div>
         <div id="multi-step-form-container">
             <!-- form steps / progress Bar -->
             <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
