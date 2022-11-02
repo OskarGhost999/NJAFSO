@@ -44,8 +44,10 @@
 </body>
 </html>
 <split>
-<br><bh>Family Records</bh>
-<br>
+	<div class="lead text-center">
+        <h1 class="display-4">Family Records</h1>
+    </div>
+
 <?php
 
 	if(!(isset($_SESSION['role']))){
