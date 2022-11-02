@@ -59,7 +59,7 @@
 
     <div class="col">
 	<div class = "container">
-	<div class = "card" style="background-color: #7dcbd4">
+	<div class = "card" style="background-color: #7dcbd4; border-radius:25px">
       <div class = "card-body">
 
     <div class="col">
