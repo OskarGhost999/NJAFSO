@@ -28,12 +28,7 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
     font-size: 30px;
     padding: 10px;
     font-family: 'Poppins', sans-serif;
-    }
-	.cCenter {
-        margin: auto;
-        width: 75%;
-        padding: 10px;
-    }
+    } 
   </style>
   <head>
     <title>Meetings attended by FSO</title>
@@ -53,72 +48,69 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
   ?>
   
 <br>
-  <!-- <bh>Assigned FSO Meeting Form</bh><br><br> -->
-	<body>
-		<div class = "card cCenter">
-			<div class="col">
-            	<bh><h1>Assigned FSO Meeting Form</h1></bh><br><br>
-				<form class ="form1" name="Intake" id="Intake" method="POST">
-					<label for="MeetingPersons">Who attended the meeting?:</label>
-					<select name="MeetingPersons" required>
-					<option disabled selected>--Select--</option>
+  <bh>Assigned FSO Meeting Form</bh><br><br>
+  <body>
+		<div class="col">
+    <form class ="form1" name="Intake" id="Intake" method="POST">
+      <label for="MeetingPersons">Who attended the meeting?:</label>
+      <select name="MeetingPersons" required>
+       <option disabled selected>--Select--</option>
 
-						<option value="FSO Exceutive Director">FSO Exceutive Director</option>
-						<option value="FSP Director">FSP Director</option>
-						<option value="Outreach Coordinator">Outreach Coordinator</option>
-						<option value="Youth Coach">Youth Coach</option>
-					</select>
-					<br>
-					<label for="TypeofMeeting">Type of Meeting:</label>
-					<select name="TypeofMeeting" required>
-					<option disabled selected>--Select--</option>
-						<option value="CIACC">CIACC</option>
-						<option value="Youth Services">Youth Services</option>
-						<option value="JDAI">JDAI</option>
-						<option value="Other">Other</option>
-						<option value="Youth Fire Setters">Youth Fire Setters</option>
-						<option value="Reentry Task Force">Reentry Task Force</option>
-						<option value="IDD">IDD</option>
-						<option value="NJAFSO Committee Meetings">NJAFSO Committee Meetings</option>
-						<option value="Education Partnership">Education Partnership</option>
-						<option value="IMPACT">IMPACT</option>
-						<option value="CYCC- County Council for Young Children">CYCC- County Council for Young Children</option>
-						<option value="FSO Executive Director Meeting">FSO Executive Director Meeting</option>
-						<option value="CSOC Statewide Meeting">CSOC Statewide Meeting</option>
-					</select>
-					<br>
-					<label for= "ContactLocation">Contact Location: </label>
-					<select name = "ContactLocation" required>
-						<option disabled selected>--Select--</option>
-						<option value="At a meeting">At a meeting</option>
-						<option value="At program site">At program site</option>
-						<option value="In the Community">In the Community</option>
-						<option value="Courthouse">Courthouse</option>
-						<option value="Detention">Detention</option>
-						<option value="Email/Fax">Email/Fax</option>
-						<option value="FSO-Staff Meeting">FSO-Staff Meeting</option>
-						<option value="Off-site">Off-site</option>
-						<option value="Office">Office</option>
-						<option value="On the phone">On the phone</option>
-						<option value="Other">Other</option>
-						<option value="Probation Office">Probation Office</option>
-						<option value="Research">Research</option>
-						<option value="School">School</option>
-						<option value="Tr-Training">Tr-Training</option>
-						<option value="CIACC">CIACC</option>
-						<option value="Hospital">Hospital</option>
-						<option value="Virutal">Virtual</option>
-					</select>
-					<br>
-					<label for="TimeSpent">Time Spent:</label>
-					<input type="number" name="TimeSpent" required/><br>
-					<br>
-					<label for="Notes2">Notes:</label><br>
-					<textarea form="Intake" name="Notes2" rows="8" cols="40"></textarea>
-					<br>
-					<input class="button" type="submit" name="submit"/>
-				</form>
-			</div>
+        <option value="FSO Exceutive Director">FSO Exceutive Director</option>
+        <option value="FSP Director">FSP Director</option>
+        <option value="Outreach Coordinator">Outreach Coordinator</option>
+        <option value="Youth Coach">Youth Coach</option>
+      </select>
+			<br>
+      <label for="TypeofMeeting">Type of Meeting:</label>
+      <select name="TypeofMeeting" required>
+      <option disabled selected>--Select--</option>
+	      <option value="CIACC">CIACC</option>
+	      <option value="Youth Services">Youth Services</option>
+	      <option value="JDAI">JDAI</option>
+	      <option value="Other">Other</option>
+	      <option value="Youth Fire Setters">Youth Fire Setters</option>
+	      <option value="Reentry Task Force">Reentry Task Force</option>
+	      <option value="IDD">IDD</option>
+	      <option value="NJAFSO Committee Meetings">NJAFSO Committee Meetings</option>
+	      <option value="Education Partnership">Education Partnership</option>
+	      <option value="IMPACT">IMPACT</option>
+	      <option value="CYCC- County Council for Young Children">CYCC- County Council for Young Children</option>
+	      <option value="FSO Executive Director Meeting">FSO Executive Director Meeting</option>
+	      <option value="CSOC Statewide Meeting">CSOC Statewide Meeting</option>
+      </select>
+			<br>
+      <label for= "ContactLocation">Contact Location: </label>
+      <select name = "ContactLocation" required>
+      <option disabled selected>--Select--</option>
+	      <option value="At a meeting">At a meeting</option>
+	      <option value="At program site">At program site</option>
+	      <option value="In the Community">In the Community</option>
+	      <option value="Courthouse">Courthouse</option>
+	      <option value="Detention">Detention</option>
+	      <option value="Email/Fax">Email/Fax</option>
+	      <option value="FSO-Staff Meeting">FSO-Staff Meeting</option>
+	      <option value="Off-site">Off-site</option>
+	      <option value="Office">Office</option>
+	      <option value="On the phone">On the phone</option>
+	      <option value="Other">Other</option>
+	      <option value="Probation Office">Probation Office</option>
+	      <option value="Research">Research</option>
+	      <option value="School">School</option>
+	      <option value="Tr-Training">Tr-Training</option>
+	      <option value="CIACC">CIACC</option>
+	      <option value="Hospital">Hospital</option>
+	      <option value="Virutal">Virtual</option>
+      </select>
+			<br>
+      <label for="TimeSpent">Time Spent:</label>
+      <input type="number" name="TimeSpent"/ required><br>
+      <br>
+      <label for="Notes2">Notes:</label><br>
+			<textarea form="Intake" name="Notes2" rows="8" cols="80"></textarea>
+			<br>
+      <input class="button" type="submit" name="submit"/>
+		</form>
 		</div>
 	</body>
 </html>
