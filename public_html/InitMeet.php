@@ -1,6 +1,9 @@
 <?php
+ini_set('display_errors',1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require("config.php");
-session_start();
+//session_start();
 
 	if(!(isset($_SESSION['role']))){
   header("Location: index.php");
@@ -11,10 +14,18 @@ session_start();
 
 $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 $db= new PDO($connection_string, $dbuser, $dbpass);
-
-
- ?>
-
+function verify_sql($stmt){
+  if(!isset($stmt)){
+      throw new Exception("stmt object is undefined");
+  }
+  $e = $stmt->errorInfo();
+  if($e[0] != '00000'){
+      $error = var_export($e, true);
+      error_log($error);
+      throw new Exception("SQL Error: $error");
+  }
+}
+?>
 <!DOCTYPE html>
 <html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +40,10 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
     padding: 10px;
     font-family: 'Poppins', sans-serif;
     } 
+	.container{
+        background-color: #7dcbd4;
+        border-radius: 15px;
+    }
   </style>
   <head>
     <title>Meetings attended by FSO</title>
@@ -47,10 +62,8 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
       include_once('navbar.php');
   ?>
   
-<br>
-  <bh>Assigned FSO Meeting Form</bh><br><br>
-  <body>
-  <div class="lead text-center">
+<body>
+    <div class="lead text-center">
         <h1 class="display-4">Assigned FSO Meeting Form</h1>
     </div>
       <div class="container">
@@ -73,6 +86,17 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
                 </select>
               </div>
             </div>
+              <br>
+            <div class="col-sm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <label class="input-group-text">Date of Meeting:</label>
+                </div>
+                <input type="date" name="date">
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-sm">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -150,31 +174,52 @@ $db= new PDO($connection_string, $dbuser, $dbpass);
 
 
 <?php
-	if($_POST){
+// quick implementation
+if($_POST){
 
-		$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
-		$stmt = $db->prepare('SELECT fso_id FROM users WHERE id=:id');
-		$stmt->execute(['id' => intval($_SESSION["ID"])]);
-		$data1 = $stmt->fetch();
+	if (!empty($_POST["date"]) && !empty($_POST["MeetingPersons"]) && !empty($_POST["TypeofMeeting"]) 
+		&& !empty($_POST["TimeSpent"]) && !empty($_POST["ContactLocation"])) {
+			
+			//$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
+			//$stmt = $db->prepare('SELECT fso_id FROM users WHERE id=:id');
+			//$stmt->execute(['id' => intval($_SESSION["ID"])]);
+			//$data1 = $stmt->fetch();
 
-		#var_dump($data1);
+			#var_dump($data1);
 
-		try{
-			$stmt = $db->prepare("INSERT INTO `fso_meeting`
-                        VALUES (:meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id)");
-			$params = array(":meeting_person"=> $_POST["MeetingPersons"],":meeting_type"=> $_POST["TypeofMeeting"], ":contact_location"=> $_POST["ContactLocation"],
-							":time_spent"=> $_POST["TimeSpent"],":meeting_notes"=> $_POST["Notes2"], ":fso_id"=> $data1['fso_id']);
+			try{
+				$stmt = $db->prepare("INSERT INTO `fso_meeting`
+							VALUES (:date, :meeting_person, :meeting_type,:contact_location,:time_spent,:meeting_notes,DEFAULT,:fso_id, DEFAULT, DEFAULT)");
+				$params = array(
+					":date" => $_POST["date"],
+					":meeting_person"=> $_POST["MeetingPersons"],
+					":meeting_type"=> $_POST["TypeofMeeting"], 
+					":contact_location"=> $_POST["ContactLocation"],
+					":time_spent"=> $_POST["TimeSpent"],
+					":meeting_notes"=> $_POST["Notes2"], 
+					":fso_id"=> $_SESSION["fso_id"]);
+					
+					$result = $stmt->execute($params);
+					verify_sql($stmt);
+					if($result){
+					Common::flash("Successfully submitted", "success");
+					}
+					else{
+						Common::flash("Submission error", "danger");
+					}
 
-			$stmt->execute($params);
-			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-		}
+					} catch(Exception $e){
+							echo $e->getMessage();
+							exit();
+							}
 
-		catch(Exception $e){
-                echo $e->getMessage();
-                exit();
-        }
+	} else {
+		Common::flash("Fields must not be empty", "warning");
 	}
 
+echo "<script> ; window.location.href='InitMeet.php'; </script>";
+//die(header("Location: InitMeet.php"));
 
+}
 
  ?>
