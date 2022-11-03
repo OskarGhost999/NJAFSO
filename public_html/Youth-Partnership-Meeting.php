@@ -68,7 +68,16 @@ $counter = 0;
 </head>
 
 <body>
+    <div class="lead text-center">
+        <h1 class="display-4">Youth Partnership Meeting</h1>
+    </div>
+
   <div class="col">
+
+  <div class = "container">
+	<div class = "card"  style="background-color: #7dcbd4; border-radius:25px">
+	<div class = "card-body">
+
     <br><bh>Youth Partnership Meeting</bh><br><br>
     <form name="mainForm" method="post">
       <label for="Date of Meeting">Date of Meeting:</label>
@@ -96,9 +105,14 @@ $counter = 0;
 	    
       <br><br>
 	    <input type="hidden" name="submit_meeting" value="true"/>
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit" class = "btn btn-secondary">
     </form>
   </div>
+  </div>
+  </div>
+  </div>
+
+
   </body>
 </html>
 

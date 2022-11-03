@@ -17,6 +17,228 @@
     padding: 10px;
     font-family: 'Poppins', sans-serif;
     } 
+
+
+    /* new stuff below */
+
+#multi-step-form-container {
+    margin-top: 5rem;
+}
+.text-center {
+    text-align: center;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+.pl-0 {
+    padding-left: 0;
+}
+.button {
+    padding: 0.7rem 1.5rem;
+    border: 1px solid #005536;
+    background-color: #04AA6D;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-btn {
+    border: 1px solid #005536;
+    background-color: #04AA6D;
+}
+.mt-3 {
+    margin-top: 2rem;
+}
+.d-none {
+    display: none;
+}
+.form-step {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 3rem;
+    background-color: #fdc24b;
+}
+.font-normal {
+    font-weight: normal;
+}
+ul.form-stepper {
+    counter-reset: section;
+    margin-bottom: 3rem;
+}
+ul.form-stepper .form-stepper-circle {
+    position: relative;
+}
+ul.form-stepper .form-stepper-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+.form-stepper-horizontal {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+ul.form-stepper > li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+    -webkit-transition: margin-bottom 0.4s;
+    -o-transition: margin-bottom 0.4s;
+    transition: margin-bottom 0.4s;
+}
+.form-stepper-horizontal > li:not(:last-of-type) {
+    margin-bottom: 0 !important;
+}
+.form-stepper-horizontal li {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+.form-stepper-horizontal li:not(:last-child):after {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 1px;
+    content: "";
+    top: 32%;
+}
+.form-stepper-horizontal li:after {
+    background-color: #dee2e6;
+}
+.form-stepper-horizontal li.form-stepper-completed:after {
+    background-color: #0e954683;
+}
+.form-stepper-horizontal li:last-child {
+    flex: unset;
+}
+ul.form-stepper li a .form-stepper-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    line-height: 1.7rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 50%;
+}
+.form-stepper .form-stepper-active .form-stepper-circle {
+    background-color: #04AA6D !important;
+    color: #fff;
+}
+.form-stepper .form-stepper-active .label {
+    color: black !important;
+}
+.form-stepper .form-stepper-active .form-stepper-circle:hover {
+    background-color: #04AA6D !important;
+    color: #fff !important;
+}
+.form-stepper .form-stepper-unfinished .form-stepper-circle {
+    background-color: #f8f7ff;
+}
+.form-stepper .form-stepper-completed .form-stepper-circle {
+    background-color: #0e954683 !important;
+    color: #fff;
+}
+.form-stepper .form-stepper-completed .label {
+    color: #0e954683 !important;
+}
+.form-stepper .form-stepper-completed .form-stepper-circle:hover {
+    background-color: #0e954683 !important;
+    color: #fff !important;
+}
+.form-stepper .form-stepper-active span.text-muted {
+    color: #fff !important;
+}
+.form-stepper .form-stepper-completed span.text-muted {
+    color: #fff !important;
+}
+.form-stepper .label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+.form-stepper a {
+    cursor: default;
+}
+
+#multi-step-form-container {
+    margin: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], [type=tel], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.date {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+    margin-left: 550px;
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  margin-top: 50px;
+}
+
+.col-25 {
+  float: left;
+  width: 10%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 90%;
+  margin-top: 6px;
+}
+
+/* clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+option {
+    margin:100px;
+}
+
   </style>
   <meta charset="utf-8">
   <title>Youth Partnership Intake</title>
@@ -34,226 +256,530 @@
 <?php
     include_once('navbar.php');
 ?>
-<body>
-  <br><bh>Youth Partnership Intake Form</bh><br><br>
-  <div class="col">
-    <form name="mainForm" method="post">
-      <b>Youth General Information:</b> <br>
-      <label for="firstName">First Name: </label>
-      <input id="firstName" name="firstName" placeholder="First Name"/ required>
-      <br>
-      <label for="lastName">Last Name: </label>
-      <input id="lastName" name="lastName" placeholder="Last Name"/ required>
-      <br>
-      Address:
-      <div class="col">
-        <input name="street" id="street" placeholder="Street"><br>
-        <input name="inputCity" id="inputCity" placeholder="City"><br>
-        <input name="inputState" id="inputState" placeholder="State"><br>
-        <input name="inputZip" id="inputZip" placeholder="Zip"><br>
-        <input name="inputCounty" id="inputCounty" placeholder="County">
-        <br><br>
-      </div>
-      <label for="email">Email: </label>
-      <input type="email" id="email" name="email" placeholder="Email"/>
-      <br>
-      <label for="DOB">Date of Birth:</label>
-      <input type="date" id="DOB" name="DOB" required>
-      <br>
-      <label for="homePhone">Home Phone Number:</label>
-      <input type="tel" id="homePhone" name="homePhone">
-      <br>
-      <label for="cellPhone">Cell Phone Number:</label>
-      <input type="tel" id="cellPhone" name="cellPhone">
-      <br>
-      <label for="CMOServices">Is the youth receiving services from the CMO?</label>
-      <select name="CMOServices" required>
-        <option disabled selected>Select an option</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-      <br>
-      <b>Education:</b><br>
-      Education Level:<br>
-      <div class="col">
-        <input type="checkbox" name="Education[]" value="Elementary"> Elementary School</input>
-        <br>
-        <input type="checkbox" name="Education[]" value="Middle"> Middle School</input>
-        <br>
-        <input type="checkbox" name="Education[]" value="High"> High School</input>
-        <br>
-        <input type="checkbox" name="Education[]" value="College"> College</input>
-        <br>
-        <input type="checkbox" name="Education[]" value="No College"> No College</input>
-        <br>
-      </div>
-      <label for="Grade">Grade:</label>
-      <input type="text" name="Grade">
-      <br>
-      <label for="School Name">School Name:</label>
-      <input type="text" name="SchoolName">
-      <br>
-      School Address:<br>
-      <div class="col">
-        <input type="text" name="Schoolstreet" placeholder="Street"><br>
-        <input type="text" name="Schoolcity" placeholder="City"><br>
-        <input type="text" name="Schoolstate" placeholder="State"><br>
-        <input type="text" name="Schoolzip" placeholder="Zip"><br>
-        <input type="text" name="Schoolcounty" placeholder="County">
-        <br><br>
-      </div>
-      <b>Health Information:</b><br>
-      <div class="col">
-        <input type="checkbox" name="Health[]" value="Allergic to peanuts"> Allergic to peanuts</input>
-        <br>
-        <input type="checkbox" name="Health[]" value="Allergic to Bee Stings"> Allergic to Bee Stings</input>
-        <br>
-        <input type="checkbox" name="Health[]" value="Asthma"> Asthma</input>
-        <br>
-        <input type="checkbox" name="Health[]" value="Developmental of learning disabilities"> Developmental of learning disabilities</input>
-        <br>
-        <input type="checkbox" name="Health[]" value="Diabetes"> Diabetes</input>
-        <br>
-        <input type="checkbox" name="Health[]" value="Taking medications regularly"> Taking medications regularly</input>
-        <br>
-        <label for="Other Allergy/Health Concern">Other Allergy/Health Concern:</label><br>
-        <textarea form="mainForm" name="Health[]" rows="5" cols="80"></textarea>
-        <br>
-      </div><br>
-      <b>Parent/Caregiver Contact Information:</b>
-      <br>
-      <label for="Relationship">Relationship:</label>
-      <select name="Relationship">
-      <option disabled selected>--Select--</option>
-        <option value="PrimaryCaregiver">Primary Caregiver</option>
-        <option value="Sibling">Sibling</option>
-        <option value="OtherAdultReletive">Other Adult Reletive</option>
-        <option value="CommunityMember">Community Member</option>
-        <option value="Other">Other</option>
-      </select><br>
-      <label for="ParentfirstName">First Name:</label>
-      <input id="ParentfirstName" name="ParentfirstName" placeholder="First Name"/><br>
-      <label for="ParentLastName">Last Name:</label>
-      <input id="ParentLastName" name="ParentLastName" placeholder="Last Name"/><br>
-	  <label for="ParentPhone">Phone Number:</label>
-      <input id="ParentPhone" name="ParentPhone" placeholder="Phone Number"/><br>
-      Address:<br>
-      <div class="col">
-        <input type="text" name="Parentstreet" placeholder="Street"><br>
-        <input type="text" name="Parentcity" placeholder="City"><br>
-        <input type="text" name="Parentstate" placeholder="State"><br>
-        <input type="text" name="Parentzip" placeholder="Zip"><br>
-        <input type="text" name="Parentcounty" placeholder="County">
-        <br><br>
-      </div>
-      <label for="ParentEmail">Email: </label>
-      <input name="ParentEmail" placeholder="Email"/><br>
-      <b>Emergency Contact Information:</b>
-      <br>
-      Emergency Contact 1:<br>
-      <label for="Emergency Contact 1 Name">Name:</label>
-      <input id="Emergency Contact 1 Name" name="EmergencyName"/><br>
-      <label for="homePhone">Phone:</label>
-      <input type="tel" id="Emergency Contact 1 Phone" name="EmergencyPhone"><br>
-      <label for="Emergency Contact 1 Relationship">Relationship:</label>
-      <input type="text" name="EmergencyRelationship">
-      <br>
-      Emergency Contact 2:<br>
-      <label for="Emergency Contact 2 Name">Name:</label>
-      <input id="Emergency Contact 2 Name" name="EmergencyName2"/><br>
-      <label for="homePhone">Phone:</label>
-      <input type="tel" id="Emergency Contact 2 Phone" name="EmergencyPhone2"><br>
-      <label for="Emergency Contact 2 Relationship">Relationship:</label>
-      <input type="text" name="EmergencyRelationship2">
-      <br>
-      <b>Perosnal Goals:</b><br>
-      <input type="checkbox" name="LifeGoals[]" value="Place to live"> Place to live</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Improving self-esteem"> Improving self-esteem</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Anger Management"> Anger Management</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Learning something new"> Learning something new</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Making friends"> Making friends</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Social Skills"> Social Skills</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Developing a positive attitude"> Developing a positive attitude</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Be more vocal in becoming an advocate"> Be more vocal in becoming an advocate</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Bring up grades"> Bring up grades</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Participate in School activities"> Participate in School activities</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Get a job"> Get a job</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Participate in activities outside of school"> Participate in activities outside of school</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Give back to my community"> Give back to my community</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Develop leadership skills"> Develop leadership skills</input>
-      <br>
-      <input type="checkbox" name="LifeGoals[]" value="Improve communication skills"> Improve communication skills</input>
-      <br>
-      <label for="Other Goals">Other Goals:</label><br>
-      <textarea form="mainForm" name="LifeGoals[]" rows="5" cols="80"></textarea>
-      <br><br>
-      <b>Future Aspirations:</b>
-      <br>
-      <label for="Career of Interest 1">First Career of Interest:</label>
-      <input type="text" name="CareerofInterest1">
-      <br>
-      <label for="Career of Interest 2">Second Career of Interest:</label>
-      <input type="text" name="CareerofInterest2">
-      <br>
-      Learning Intrests:<br>
-      <input type="checkbox" name="LearningInterests[]" value="Microsoft Word"> Microsoft Word</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Microsoft Excel"> Microsoft Excel</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Microsoft Powerpoint"> Microsoft Powerpoint</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Microsoft Publisher"> Microsoft Publisher</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Public Speaking"> Public Speaking</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Fundraising"> Fundraising</input>
-      <br>
-      <input type="checkbox" name="LearningInterests[]" value="Publishing"> Publishing</input>
-      <br>
-      <label for="Other Learning Interests">Other Learning Interests:</label><br>
-      <textarea form="mainForm" name="LearningInterests[]" rows="5" cols="80"></textarea>
-      <br>
-      <b>General Interests</b><br>
-      <input type="checkbox" name="GeneralInterests[]" value="Art"> Art</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Drama/Theater Arts"> Drama/Theater Arts</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Sports"> Sports</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Dance"> Dance</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Music"> Music</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Writing"> Writing</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Reading"> Reading</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Hanging out with friends"> Hanging out with friends</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Technology"> Technology</input>
-      <br>
-      <input type="checkbox" name="GeneralInterests[]" value="Community Service"> Community Service</input>
-      <br>
-      <label for="Other General Intrests">Other General Interests:</label><br>
-      <textarea form="mainForm" name="GeneralInterests[]" rows="5" cols="80"></textarea>
-      <br>
-      <input type="submit" value="Submit"><>
-      <br>
-    </form>
-  </div>
+<body> <!-- entire body is new code with pagination with the old form -->
+      <div>
+         <div class="lead text-center">
+        <h1 class="display-4">Youth Partnership Intake</h1>
+   	 </div>
+        <div id="multi-step-form-container">
+            <!-- form steps / progress Bar -->
+            <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
+                <!-- step 1 -->
+                <li class="form-stepper-active text-center form-stepper-list" step="1">
+                    <a class="mx-2">
+                        <span class="form-stepper-circle">
+                            <span>1</span>
+                        </span>
+                        <div class="label">General Information</div>
+                    </a>
+                </li>
+                <!-- step 2 -->
+                <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
+                    <a class="mx-2">
+                        <span class="form-stepper-circle text-muted">
+                            <span>2</span>
+                        </span>
+                        <div class="label text-muted">Contacts</div>
+                    </a>
+                </li>
+                <!-- step 3 -->
+                <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
+                    <a class="mx-2">
+                        <span class="form-stepper-circle text-muted">
+                            <span>3</span>
+                        </span>
+                        <div class="label text-muted">Personal Details</div>
+                    </a>
+                </li>
+            </ul>
+            <!-- step form content -->
+            <form id="userAccountSetupForm" name="userAccountSetupForm" enctype="multipart/form-data" method="POST">
+                <!-- step 1 content -->
+                <section id="step-1" class="form-step">
+                    <h2 class="font-normal">General Information</h2>
+                    <!-- step 1 input fields -->
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="col-25">
+                              <label for="firstName">First Name</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="firstName" name="firstName" placeholder="Enter the youth's first name"/ required>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="lastName">Last Name</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="lastName" name="lastName" placeholder="Enter the youth's last name"/ required>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="adress">Address</label>
+                            </div>
+                            <div class="col-75">
+								<input type="text" name="street" id="street" placeholder="Street"><br>
+								<input type="text" name="inputCity" id="inputCity" placeholder="City"><br>
+								<input type="text" name="inputState" id="inputState" placeholder="State"><br>
+								<input type="text" name="inputZip" id="inputZip" placeholder="Zip"><br>
+								<input type="text" name="inputCounty" id="inputCounty" placeholder="County">
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="email">Email</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="email" id="email" name="email" class="date" placeholder="Enter the youth's email">
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="dob">Date of Birth</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="date" id="DOB" name="DOB" class="date" placeholder="mm/dd/yyyy" required>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="homePhone">Home Phone Number</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="tel" id="homePhone" name="homePhone" placeholder="Enter the youth's home phone number">
+                            </div>
+                          </div>
+
+						  <div class="row">
+                            <div class="col-25">
+                              <label for="cellPhone">Cellphone Number</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="tel" id="cellPhone" name="cellPhone" placeholder="Enter the youth's cell phone number">
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="CMOServices">Receiving CMO services?</label>
+                            </div>
+                            <div class="col-75">
+                                <select id="CMOServices" name="CMOServices">
+                                    <option disabled selected>Select an option</option>
+                                  <option value="yes">Yes</option>
+                                  <option value="no">No</option>
+                                </select>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-25">
+                              <label for="education">Education</label>
+                            </div>
+                            <div class="col-75">
+                                <select id="Education[]" name="Education[]">
+                                  <option disabled selected>Select education level</option>
+                                  <option value="Elementary">Elementary School</option>
+                                  <option value="Middle">Middle School</option>
+                                  <option value="High">High School</option>
+                                  <option value="College">College</option>
+                                  <option value="No College">No college</option>
+                                </select>
+                            </div>
+                          </div>
+
+
+					
+
+						  		  <div class="row">
+                            <div class="col-25">
+                              <label for="gradelevel">Grade level</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="cellPhone" name="cellPhone" placeholder="Enter the youth's cell phone number">
+                            </div>
+                          </div>
+
+
+						  		  <div class="row">
+                            <div class="col-25">
+                              <label for="School Name">School Name</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="SchoolName" name="SchoolName" placeholder="Enter the youth's school name.">
+                            </div>
+                          </div>
+
+
+
+						    <div class="row">
+                            <div class="col-25">
+                              <label for="schoolAddress">School Address</label>
+                            </div>
+                            <div class="col-75">
+								<input type="text" name="Schoolstreet" id="Schoolstreet" placeholder="Street"><br>
+								<input type="text" name="Schoolcity" id="Schoolcity" placeholder="City"><br>
+								<input type="text" name="Schoolstate" id="Schoolstate" placeholder="State"><br>
+								<input type="text" name="Schoolzip" id="Schoolzip" placeholder="Zip"><br>
+								<input type="text" name="Schoolcounty" id="Schoolcounty" placeholder="County">
+                            </div>
+                          </div>
+
+						      <div class="row">
+                            <div class="col-25">
+                              <label for="Health Information">Health Information</label>
+                            </div>
+                            <div class="col-75">
+								  
+								  <br>
+								  <input type="checkbox" name="Health[]" value="Allergic to peanuts"> Allergic to peanuts</input>
+									<br>
+									<input type="checkbox" name="Health[]" value="Allergic to Bee Stings"> Allergic to Bee Stings</input>
+									<br>
+									<input type="checkbox" name="Health[]" value="Asthma"> Asthma</input>
+									<br>
+									<input type="checkbox" name="Health[]" value="Developmental of learning disabilities"> Developmental of learning disabilities</input>
+									<br>
+									<input type="checkbox" name="Health[]" value="Diabetes"> Diabetes</input>
+									<br>
+									<input type="checkbox" name="Health[]" value="Taking medications regularly"> Taking medications regularly</input>
+									<br>
+									<label for="Other Allergy/Health Concern">Other Allergy/Health Concern:</label><br>
+									<textarea form="mainForm" name="Health[]" rows="5" cols="80"></textarea>
+								</div>
+                          </div>
+
+
+
+                    </div>
+                    <div class="mt-3">
+                        <button class="button btn-navigate-form-step" type="button" step_number="2">Next</button>
+                    </div>
+                </section>
+                <!-- step 2 content, default hidden on page load -->
+                <section id="step-2" class="form-step d-none">
+                    <h2 class="font-normal">Contacts</h2>
+                    <!-- step 2 input fields -->
+                    <div class="mt-3">
+                        
+
+						<div class = "row"> 
+						<h4 class="font-normal">Parent or Caregiver Contact Information</h4>
+						</div>
+
+							<div class="row">
+                            <div class="col-25">
+                              <label for="Relationship">Relationship</label>
+                            </div>
+                            <div class="col-75">
+                              
+								  <select name="Relationship">
+								  <option disabled selected>--Select--</option>
+									<option value="PrimaryCaregiver">Primary Caregiver</option>
+									<option value="Sibling">Sibling</option>
+									<option value="OtherAdultReletive">Other Adult Reletive</option>
+									<option value="CommunityMember">Community Member</option>
+									<option value="Other">Other</option>
+								  </select>
+							</div>
+							</div>
+		
+		
+							<div class="row">
+                            <div class="col-25">
+                              
+								  <label for="ParentfirstName">First Name:</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="ParentfirstName" name="ParentfirstName" placeholder="First Name"/>
+							</div>
+							</div>
+
+							
+							<div class="row">
+                            <div class="col-25">
+                               <label for="ParentLastName">Last Name:</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" id="ParentLastName" name="ParentLastName" placeholder="Last Name"/>
+							</div>
+							</div>
+
+
+
+
+							
+							<div class="row">
+                            <div class="col-25">
+                              	  <label for="ParentPhone">Phone Number:</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="tel" id="ParentPhone" name="ParentPhone" placeholder="Phone Number"/><br>
+
+							</div>
+							</div>
+
+
+		
+
+
+							<div class="row">
+                            <div class="col-25">
+									<label for="parentAddress">Address</label>
+                            </div>
+                            <div class="col-75">
+                              <input type="text" name="Parentstreet" placeholder="Street"><br>
+									<input type="text" name="Parentcity" placeholder="City"><br>
+									<input type="text" name="Parentstate" placeholder="State"><br>
+									<input type="text" name="Parentzip" placeholder="Zip"><br>
+									<input type="text" name="Parentcounty" placeholder="County">
+							</div>
+							</div>
+
+							<br>
+							<div class="row">
+							<h4 class="font-normal">Emergency Contact Information</h4>
+							</div>
+							<br>
+
+
+								<div class="row">
+							<h5 class="font-normal">Emergency Contact 1</h4>
+							</div>
+
+							
+							
+							<div class="row">
+                            <div class="col-25">
+                              <label for="Emergency Contact 1 Name">Name:</label>
+                            </div>
+                            <div class="col-75">
+                                    
+								<input type="text" id="Emergency Contact 1 Name" name="EmergencyName"/><br>
+							</div>
+							</div>
+
+
+							
+							<div class="row">
+                            <div class="col-25">
+                            <label for="homePhone">Phone:</label>
+                            </div>
+                            <div class="col-75">
+                                 <input type="tel" id="Emergency Contact 1 Phone" name="EmergencyPhone"><br>
+							</div>
+							</div>
+
+
+							
+							<div class="row">
+                            <div class="col-25">
+                             <label for="Emergency Contact 1 Relationship">Relationship:</label>
+                            </div>
+                            <div class="col-75">
+                                  <input type="text" name="EmergencyRelationship">
+							</div>
+							</div>
+
+						
+
+
+
+
+
+							<br>
+							<div class="row">
+							<h5 class="font-normal">Emergency Contact 2</h4>
+							</div>
+
+
+							<div class="row">
+                            <div class="col-25">
+                              <label for="Emergency Contact 2 Name">Name:</label>
+                            </div>
+                            <div class="col-75">
+                                    
+								<input type="text" id="Emergency Contact 2 Name" name="EmergencyName2"/><br>
+							</div>
+							</div>
+
+
+							
+							<div class="row">
+                            <div class="col-25">
+                            <label for="homePhone">Phone:</label>
+                            </div>
+                            <div class="col-75">
+                                 <input type="tel" id="Emergency Contact 2 Phone" name="EmergencyPhone2"><br>
+							</div>
+							</div>
+
+
+							
+							<div class="row">
+                            <div class="col-25">
+                             <label for="Emergency Contact 1 Relationship">Relationship:</label>
+                            </div>
+                            <div class="col-75">
+                                  <input type="text" name="EmergencyRelationship2">
+							</div>
+							</div>
+
+						
+
+
+                    </div>
+                    <div class="mt-3">
+                        <button class="button btn-navigate-form-step" type="button" step_number="1">Prev</button>
+                        <button class="button btn-navigate-form-step" type="button" step_number="3">Next</button>
+                    </div>
+                </section>
+                <!-- step 3 content, default hidden on page load -->
+                <section id="step-3" class="form-step d-none">
+                    <h2 class="font-normal">Personal Details</h2>
+                    <!-- step 3 input fields -->
+                    <div class="mt-3">
+                        
+					 <div class="row">
+                            <div class="col-25">
+                              <label for="Personal Goals">Personal Goals</label>
+                            </div>
+                            <div class="col-75">
+							<br>
+                             <input type="checkbox" name="LifeGoals[]" value="Place to live"> Place to live</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Improving self-esteem"> Improving self-esteem</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Anger Management"> Anger Management</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Learning something new"> Learning something new</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Making friends"> Making friends</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Social Skills"> Social Skills</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Developing a positive attitude"> Developing a positive attitude</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Be more vocal in becoming an advocate"> Be more vocal in becoming an advocate</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Bring up grades"> Bring up grades</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Participate in School activities"> Participate in School activities</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Get a job"> Get a job</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Participate in activities outside of school"> Participate in activities outside of school</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Give back to my community"> Give back to my community</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Develop leadership skills"> Develop leadership skills</input>
+							  <br>
+							  <input type="checkbox" name="LifeGoals[]" value="Improve communication skills"> Improve communication skills</input>
+							  <br>
+							  <label for="Other Goals">Other Goals:</label><br>
+							  <textarea form="mainForm" name="LifeGoals[]" rows="5" cols="80"></textarea>
+
+						   
+						   
+						   </div>
+                          </div>
+
+
+						  	 <div class="row">
+                            <div class="col-25">
+                              <label for="Future Aspirations">Future Aspirations</label>
+                            </div>
+                            <div class="col-75">
+                              
+							    
+							  
+							  <input type="text" name="CareerofInterest1" placeholder="First Career of Interest"/>
+							  <br>
+							  
+							  <input type="text" name="CareerofInterest2"placeholder="Second Career of Interest"/>
+							  <br>
+							  
+							  </div>
+                          </div>
+
+
+						  <div class="row">
+                            <div class="col-25">
+                              <label for="Learning Interests">Learning Interests</label>
+                            </div>
+                            <div class="col-75">
+
+							<br>
+                              <input type="checkbox" name="LearningInterests[]" value="Microsoft Word"> Microsoft Word</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Microsoft Excel"> Microsoft Excel</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Microsoft Powerpoint"> Microsoft Powerpoint</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Microsoft Publisher"> Microsoft Publisher</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Public Speaking"> Public Speaking</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Fundraising"> Fundraising</input>
+							  <br>
+							  <input type="checkbox" name="LearningInterests[]" value="Publishing"> Publishing</input>
+							  <br>
+							  <label for="Other Learning Interests">Other Learning Interests:</label><br>
+							  <textarea form="mainForm" name="LearningInterests[]" rows="5" cols="80"></textarea>
+                            </div>
+                          </div>
+
+						  						  		  <div class="row">
+                            <div class="col-25">
+                              <label for="General Interests">General Interests</label>
+                            </div>
+                            <div class="col-75">
+									<br>
+							       <input type="checkbox" name="GeneralInterests[]" value="Art"> Art</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Drama/Theater Arts"> Drama/Theater Arts</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Sports"> Sports</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Dance"> Dance</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Music"> Music</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Writing"> Writing</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Reading"> Reading</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Hanging out with friends"> Hanging out with friends</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Technology"> Technology</input>
+								  <br>
+								  <input type="checkbox" name="GeneralInterests[]" value="Community Service"> Community Service</input>
+								  <br>
+								  <label for="Other General Intrests">Other General Interests:</label><br>
+								  <textarea form="mainForm" name="GeneralInterests[]" rows="5" cols="80"></textarea>
+								  <br>
+							 
+							 </div>
+                          </div>
+
+
+
+
+                    </div>
+                    <div class="mt-3">
+                        <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
+                        <button class="button submit-btn" type="submit">Submit</button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+    <script src="pagination.js"></script>
+
+
+
   </body>
 </html>
 
@@ -301,7 +827,8 @@ if($_POST){
 						
 		$youth_id = intval($db->lastInsertId());
 		
-		#Parent Info
+    echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>"; #added error checking.
+    #Parent Info
 		
 		$stmt = $db->prepare("INSERT INTO `personal_info`
                         VALUES (:firstname, :lastname, :prefix, :middlename, :gender, :dob, :race, 
@@ -314,7 +841,6 @@ if($_POST){
 		$stmt->execute($params);
 						
 		$parent_id = intval($db->lastInsertId());
-		
 		
 		#Youth Address
 		

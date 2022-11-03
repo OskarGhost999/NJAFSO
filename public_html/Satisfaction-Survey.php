@@ -18,7 +18,6 @@ $stmt->execute(['id' => intval($_SESSION["ID"])]);
 $data = $stmt->fetchAll();
 
  ?>
-
 <html lang="en" dir="ltr">
 <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,16 +69,28 @@ $data = $stmt->fetchAll();
       margin-top: 0px;
       margin-bottom: 5px;
     }
+    bh{
+      font-weight: normal;
+      margin-right: 10px;
+      font-size: 30px;
+      padding: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+
   </style>
   <?php
       include_once('navbar.php');
   ?>
   <body>
+  <div class="lead text-center">
+    <h1 class="display-4">Satisfaction Survey</h1>
+</div>
     <div class="col">
+    <div class="container">
+      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
+      <div class="card-body">
     <form class ="form1" name="Intake" id="Intake" method="POST">
 <br>
-  <bh>Satsifaction Survey:</bh><br><br>   
-
       <label for="prompt">Select the Family:</label>
 	  <br>
       <select name="family" required>
@@ -176,6 +187,9 @@ $data = $stmt->fetchAll();
       </select><br>
       <input class="button" type="submit" name="submit"/>
     </form>
+    </div>
+      </div>
+    </div>
     </div>
   </body>
 </html>
