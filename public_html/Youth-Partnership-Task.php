@@ -50,7 +50,6 @@ if(isset($_POST) && !empty($_POST['date_task'])){
      }
 	}
  ?>
-
 <html lang="en" dir="ltr">
 <style media="screen">
   red{
@@ -78,7 +77,13 @@ if(isset($_POST) && !empty($_POST['date_task'])){
     include_once('navbar.php');
 ?>
 <body>
+<div class="lead text-center">
+    <h1 class="display-4">Youth Partnership Tasks</h1>
+</div>
   <div class="col">
+    <div class="container">
+      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
+      <div class="card-body">
     <style>
     bh{
     font-weight: normal;
@@ -88,7 +93,7 @@ if(isset($_POST) && !empty($_POST['date_task'])){
     font-family: 'Poppins', sans-serif;
     } 
   </style>
-  <br><bh>Youth Partnership Tasks</bh><br>
+  <br>
   <br>
     <form name="mainForm" method="post">
       <label for="Date of Task">Date of Task:</label>
@@ -100,7 +105,6 @@ if(isset($_POST) && !empty($_POST['date_task'])){
       <label for="Staff">Staff:</label>
 	    <select name="staff_id">
       <option disabled selected>--Select--</option>
-
 		    <?php
 		    foreach($data2 as $staff) {
             var_dump($staff);
@@ -118,9 +122,8 @@ if(isset($_POST) && !empty($_POST['date_task'])){
       <input type="submit" value="Submit">
     </form>
   </div>
+      </div>
+    </div>
   </body>
   
 </html>
-
-
-	

@@ -40,6 +40,10 @@ function verify_sql($stmt){
     padding: 10px;
     font-family: 'Poppins', sans-serif;
     } 
+	.container{
+        background-color: #7dcbd4;
+        border-radius: 15px;
+    }
   </style>
   <head>
     <title>Meetings attended by FSO</title>
@@ -58,74 +62,113 @@ function verify_sql($stmt){
       include_once('navbar.php');
   ?>
   
-<br>
-  <bh>Assigned FSO Meeting Form</bh><br><br>
-  <body>
-		<div class="col">
-    <form class ="form1" name="Intake" id="Intake" method="POST">
-      <label for="MeetingPersons">Who attended the meeting?:</label>
-      <select name="MeetingPersons" required>
-       <option disabled selected>--Select--</option>
-
-        <option value="FSO Exceutive Director">FSO Exceutive Director</option>
-        <option value="FSP Director">FSP Director</option>
-        <option value="Outreach Coordinator">Outreach Coordinator</option>
-        <option value="Youth Coach">Youth Coach</option>
-      </select>
-		<br>
-		<label for="Date of Meeting">Date of Meeting:</label>
-      <input type="date" name="date">
-	  <br>
-      <label for="TypeofMeeting">Type of Meeting:</label>
-      <select name="TypeofMeeting" required>
-      <option disabled selected>--Select--</option>
-	      <option value="CIACC">CIACC</option>
-	      <option value="Youth Services">Youth Services</option>
-	      <option value="JDAI">JDAI</option>
-	      <option value="Other">Other</option>
-	      <option value="Youth Fire Setters">Youth Fire Setters</option>
-	      <option value="Reentry Task Force">Reentry Task Force</option>
-	      <option value="IDD">IDD</option>
-	      <option value="NJAFSO Committee Meetings">NJAFSO Committee Meetings</option>
-	      <option value="Education Partnership">Education Partnership</option>
-	      <option value="IMPACT">IMPACT</option>
-	      <option value="CYCC- County Council for Young Children">CYCC- County Council for Young Children</option>
-	      <option value="FSO Executive Director Meeting">FSO Executive Director Meeting</option>
-	      <option value="CSOC Statewide Meeting">CSOC Statewide Meeting</option>
-      </select>
-			<br>
-      <label for= "ContactLocation">Contact Location: </label>
-      <select name = "ContactLocation" required>
-      <option disabled selected>--Select--</option>
-	      <option value="At a meeting">At a meeting</option>
-	      <option value="At program site">At program site</option>
-	      <option value="In the Community">In the Community</option>
-	      <option value="Courthouse">Courthouse</option>
-	      <option value="Detention">Detention</option>
-	      <option value="Email/Fax">Email/Fax</option>
-	      <option value="FSO-Staff Meeting">FSO-Staff Meeting</option>
-	      <option value="Off-site">Off-site</option>
-	      <option value="Office">Office</option>
-	      <option value="On the phone">On the phone</option>
-	      <option value="Other">Other</option>
-	      <option value="Probation Office">Probation Office</option>
-	      <option value="Research">Research</option>
-	      <option value="School">School</option>
-	      <option value="Tr-Training">Tr-Training</option>
-	      <option value="CIACC">CIACC</option>
-	      <option value="Hospital">Hospital</option>
-	      <option value="Virutal">Virtual</option>
-      </select>
-			<br>
-      <label for="TimeSpent">Time Spent:</label>
-      <input type="number" name="TimeSpent"/ required><br>
-      <br>
-      <label for="Notes2">Notes:</label><br>
-			<textarea form="Intake" name="Notes2" rows="8" cols="80"></textarea>
-			<br>
-      <input class="button" type="submit" name="submit"/>
-		</form>
-		</div>
+<body>
+    <div class="lead text-center">
+        <h1 class="display-4">Assigned FSO Meeting Form</h1>
+    </div>
+      <div class="container">
+        <br>
+        <br>
+        <div class="col">
+          <form class ="form1" name="Intake" id="Intake" method="POST">
+          <div class="row">
+            <div class="col-sm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text">Who Attended The Meeting?:</label>
+                </div>
+                <select class="custom-select"name="MeetingPersons" required>
+                  <option disabled selected>Choose</option>
+                  <option value="FSO Exceutive Director">FSO Exceutive Director</option>
+                  <option value="FSP Director">FSP Director</option>
+                  <option value="Outreach Coordinator">Outreach Coordinator</option>
+                  <option value="Youth Coach">Youth Coach</option>
+                </select>
+              </div>
+            </div>
+              <br>
+            <div class="col-sm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <label class="input-group-text">Date of Meeting:</label>
+                </div>
+                <input type="date" name="date">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text">Type of Meeting:</label>
+                </div>
+                <select class="custom-select"name="TypeofMeeting" required>
+                  <option disabled selected>Choose</option>
+                  <option value="CIACC">CIACC</option>
+                  <option value="Youth Services">Youth Services</option>
+                  <option value="JDAI">JDAI</option>
+                  <option value="Other">Other</option>
+                  <option value="Youth Fire Setters">Youth Fire Setters</option>
+                  <option value="Reentry Task Force">Reentry Task Force</option>
+                  <option value="IDD">IDD</option>
+                  <option value="NJAFSO Committee Meetings">NJAFSO Committee Meetings</option>
+                  <option value="Education Partnership">Education Partnership</option>
+                  <option value="IMPACT">IMPACT</option>
+                  <option value="CYCC- County Council for Young Children">CYCC- County Council for Young Children</option>
+                  <option value="FSO Executive Director Meeting">FSO Executive Director Meeting</option>
+                  <option value="CSOC Statewide Meeting">CSOC Statewide Meeting</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text">Contact Location</label>
+                </div>
+                <select class="custom-select" name = "ContactLocation" required>
+                  <option disabled selected>Choose</option>
+                  <option value="At a meeting">At a meeting</option>
+                  <option value="At program site">At program site</option>
+                  <option value="In the Community">In the Community</option>
+                  <option value="Courthouse">Courthouse</option>
+                  <option value="Detention">Detention</option>
+                  <option value="Email/Fax">Email/Fax</option>
+                  <option value="FSO-Staff Meeting">FSO-Staff Meeting</option>
+                  <option value="Off-site">Off-site</option>
+                  <option value="Office">Office</option>
+                  <option value="On the phone">On the phone</option>
+                  <option value="Other">Other</option>
+                  <option value="Probation Office">Probation Office</option>
+                  <option value="Research">Research</option>
+                  <option value="School">School</option>
+                  <option value="Tr-Training">Tr-Training</option>
+                  <option value="CIACC">CIACC</option>
+                  <option value="Hospital">Hospital</option>
+                  <option value="Virutal">Virtual</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="TimeSpent"><h4 class="display-8">Time Spent:</h4></label>
+            <div class="col-sm-2">
+              <input class="form-control" type="number" name="TimeSpent"/ required>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="Notes2"><h4 class="display-8">Notes:</h4></label><br>
+            <div class="col-sm-10">
+              <textarea class="form-control" form="Intake" name="Notes2" rows="8"></textarea>
+            </div>
+          </div>
+          <div class="text-center">
+            <input class="btn btn-secondary btn-lg" type="submit" name="register"/>
+          </div>
+		      </form>
+          </br>
+          </br>
+	      </div>
+      </div>
 	</body>
 </html>
 
