@@ -77,13 +77,14 @@
         $lists = array_chunk($table_fields, 8);
 
         # DATA IS STORED HERE
-        $stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');		// TAKE FROM BOTH fid & person_id
+        //$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');		// TAKE FROM BOTH fid & person_id
+        $stmt = $db->prepare("SELECT person_id FROM personal_info where user_id=:u_id");
         $stmt->execute(['u_id' => intval($_SESSION["ID"])]);
         $data = $stmt->fetchAll();
 
         foreach ($data as $family_id){
             # HANDLE fid
-            $stmt = $db->prepare('SELECT * FROM fans WHERE f_id=:fan_id');
+            $stmt = $db->prepare('SELECT * FROM fans WHERE person_id=:fan_id'); //from f_id
             $stmt->execute(['fan_id' => $family_id[0]]);
             $data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

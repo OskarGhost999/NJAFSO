@@ -1,6 +1,18 @@
 <?php
+
 require("config.php");
 include_once('navbar.php');
+function verify_sql($stmt){
+  if(!isset($stmt)){
+      throw new Exception("stmt object is undefined");
+  }
+  $e = $stmt->errorInfo();
+  if($e[0] != '00000'){
+      $error = var_export($e, true);
+      error_log($error);
+      throw new Exception("SQL Error: $error");
+  }
+}
 
 	if(!(isset($_SESSION['role']))){
   header("Location: index.php");
@@ -14,7 +26,8 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 
 $db= new PDO($connection_string, $dbuser, $dbpass);
 #$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
-$stmt = $db->prepare('SELECT fid, uid,person_id FROM family WHERE uid=:id');
+//$stmt = $db->prepare('SELECT fid, uid,person_id FROM family WHERE uid=:id');
+$stmt = $db->prepare('SELECT user_id, person_id FROM personal_info WHERE user_id=:id');
 $stmt->execute(['id' => intval($_SESSION["ID"])]);
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $counter = 0;
@@ -35,6 +48,7 @@ $counter = 0;
     } 
   </style>
   <br>
+  <bh>Family Support: FANS Assesment</bh><br><br>
 <html lang="en" dir="ltr">
   <style media="screen">
     purple{
@@ -55,18 +69,13 @@ $counter = 0;
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
   <body style="background-color: #e0f5f5;">
-  <div class="lead text-center">
-    <h1 class="display-4">FANS Assesment Survey</h1>
-</div>
     <div class="col">
-    <div class="container">
-      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
-      <div class="card-body">
     <form class="form1" name="mainForm" id="mainForm" method="post" enctype="multipart/form-data">
 
 	<label>Select the Family:</label>
 	  <br>
-      <select name="family" required>
+    <!-- select name changed to person from family -->
+      <select name="person" required>
         <option value=""  disabled selected>Select an Option</option>
 
 		<?php foreach ($data as $row) {
@@ -77,7 +86,8 @@ $counter = 0;
 			#var_dump($data2);
 
 			?>
-		<option value= <?php echo $row["fid"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["fid"];}?> </option>
+      <!-- person_id where fid was -->
+		<option value= <?php echo $row["person_id"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["person_id"];}?> </option>
       </select><br><br><br><br>
 
       <purple>
@@ -568,8 +578,6 @@ $counter = 0;
     <p id="totalScoreText"></p><br>
     <button onclick="CalcTotalScore()">Calculate Score</button>
     </div>
-      </div>
-    </div>
   </body>
 </html>
 
@@ -583,8 +591,9 @@ $counter = 0;
 		$q->execute();
 		$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
 
-		$wat = $_POST['family'];
-		unset($_POST['family']);
+    //post family to person
+		$wat = $_POST['person'];
+		unset($_POST['person']);
 		#$_POST['family'] = $wat;
 
 		#$wat1 = $table_fields['f_id'];
@@ -593,7 +602,7 @@ $counter = 0;
 
 		#array_push($_POST, );
 		array_pop($table_fields);
-		$table_fields[39] = 'fid';
+		$table_fields[39] = 'fid'; //hmm
 
 
 
@@ -617,8 +626,11 @@ $counter = 0;
 		}
 
 		$temp = ':';
-		$temp .= "fid";
+		$temp .= "person_id"; //from fid
 		$params[$temp] = $wat;
+    $params[":fid"] = NULL; //...
+
+
 		if(!empty($_FILES["filename"]["name"])){
 			$filename = $_FILES['filename']['name'];
 			$temp = explode(".", $_FILES["filename"]["name"]);
@@ -651,7 +663,15 @@ $counter = 0;
 
 			$stmt = $db->prepare($sql);
 
-			$stmt->execute($params);
+			//$stmt->execute($params);
+    $result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result) {
+      echo "<br>FANS submitted successfully";
+      }
+      else{
+          echo "<br>FANS submission error";
+      }
 
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 		}
@@ -663,4 +683,3 @@ $counter = 0;
 	}
 
 ?>
-

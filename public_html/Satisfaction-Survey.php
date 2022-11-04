@@ -13,11 +13,13 @@ $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 
 $db= new PDO($connection_string, $dbuser, $dbpass);
 $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
-$stmt = $db->prepare('SELECT fid, uid, person_id FROM family WHERE uid=:id');
+//$stmt = $db->prepare('SELECT fid, uid, person_id FROM family WHERE uid=:id');
+$stmt = $db->prepare('SELECT person_id, user_id FROM personal_info WHERE user_id=:id');
 $stmt->execute(['id' => intval($_SESSION["ID"])]);
 $data = $stmt->fetchAll();
 
  ?>
+
 <html lang="en" dir="ltr">
 <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,31 +71,31 @@ $data = $stmt->fetchAll();
       margin-top: 0px;
       margin-bottom: 5px;
     }
-    bh{
-      font-weight: normal;
-      margin-right: 10px;
-      font-size: 30px;
-      padding: 10px;
-      font-family: 'Poppins', sans-serif;
-    }
-
   </style>
   <?php
       include_once('navbar.php');
+      function verify_sql($stmt){
+        if(!isset($stmt)){
+            throw new Exception("stmt object is undefined");
+        }
+        $e = $stmt->errorInfo();
+        if($e[0] != '00000'){
+            $error = var_export($e, true);
+            error_log($error);
+            throw new Exception("SQL Error: $error");
+        }
+     }
   ?>
   <body>
-  <div class="lead text-center">
-    <h1 class="display-4">Satisfaction Survey</h1>
-</div>
     <div class="col">
-    <div class="container">
-      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
-      <div class="card-body">
     <form class ="form1" name="Intake" id="Intake" method="POST">
 <br>
+  <bh>Satsifaction Survey:</bh><br><br>   
+
       <label for="prompt">Select the Family:</label>
 	  <br>
-      <select name="family" required>
+    <!--changed select name value from family to person -->
+      <select name="person" required>
         <option value=""  disabled selected>--Select--</option>
 		<?php foreach ($data as $row) {
 			$stmt = $db->prepare('SELECT firstname, lastname FROM personal_info WHERE person_id=:id');
@@ -103,7 +105,8 @@ $data = $stmt->fetchAll();
 			#var_dump($data2);
 
 			?>
-		<option value= <?php echo $row["fid"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["fid"];}?> </option>
+      <!-- person_id from fid -->
+		<option value= <?php echo $row["person_id"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["person_id"];}?> </option>
       </select><br><br></option>
 	  <label for="prompt">The FSO staff provided services promptly and efficiently.</label>
       <br>
@@ -188,9 +191,6 @@ $data = $stmt->fetchAll();
       <input class="button" type="submit" name="submit"/>
     </form>
     </div>
-      </div>
-    </div>
-    </div>
   </body>
 </html>
 
@@ -199,12 +199,31 @@ $data = $stmt->fetchAll();
 
 		try{
 			$stmt = $db->prepare("INSERT INTO `survey`
-                        VALUES (DEFAULT, :prompt,:court,:inform,:knowledge,:advocacy,:goals,:qol,:recommend,:fid)");
-			$params = array(":prompt"=> $_POST["prompt"],":court"=> $_POST["curteous"], ":inform"=> $_POST["informed"],":knowledge"=> $_POST["answerQuestions"],":advocacy"=> $_POST["advocacySkills"],
-							":goals"=> $_POST["progress"],":qol"=> $_POST["qualityOfLife"],":recommend"=> $_POST["recommend"], ":fid"=> $_POST["family"]);
+                        VALUES (DEFAULT, :prompt,:court,:inform,:knowledge,:advocacy,:goals,:qol,:recommend,:fid, :person_id, DEFAULT, DEFAULT)");
+			$params = array(
+        ":prompt"=> $_POST["prompt"],
+        ":court"=> $_POST["curteous"], 
+        ":inform"=> $_POST["informed"],
+        ":knowledge"=> $_POST["answerQuestions"],
+        ":advocacy"=> $_POST["advocacySkills"],
+				":goals"=> $_POST["progress"],
+        ":qol"=> $_POST["qualityOfLife"],
+        ":recommend"=> $_POST["recommend"], 
+        ":fid"=> NULL, //$_POST["family"]
+				":person_id" => $_POST["person"],
+        );
 			
 			#var_dump($stmt);
-			$stmt->execute($params);
+			//$stmt->execute($params);
+    $result = $stmt->execute($params);
+    verify_sql($stmt);
+    if($result) {
+      echo "Survey submitted successfully";
+      }
+      else{
+          echo "Survey submission error";
+          //var_export($result);
+      }
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 		}
 

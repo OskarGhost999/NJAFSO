@@ -1,6 +1,17 @@
 <?php
 	include_once('navbar.php');
 	require("config.php");
+  function verify_sql($stmt){
+  if(!isset($stmt)){
+      throw new Exception("stmt object is undefined");
+  }
+  $e = $stmt->errorInfo();
+  if($e[0] != '00000'){
+      $error = var_export($e, true);
+      error_log($error);
+      throw new Exception("SQL Error: $error");
+  }
+}
 	if(!(isset($_SESSION['role']))){
 		header("Location: index.php");
 	}
@@ -14,7 +25,8 @@
 	error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 	ini_set('display_errors', 1);
 	
-	$stmt = $db->prepare('SELECT fid, uid,person_id FROM family WHERE uid=:id');
+	//$stmt = $db->prepare('SELECT fid, uid,person_id FROM family WHERE uid=:id');
+  $stmt = $db->prepare('SELECT person_id, user_id FROM personal_info WHERE user_id=:id');
 	$stmt->execute(['id' => intval($_SESSION["ID"])]);
 	$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -66,7 +78,8 @@
       <form name="mainForm" id= "mainForm" method="post" enctype="multipart/form-data">
 	  	<label>Select the Family:</label>
 	  <br>
-      <select name="family" required>
+    <!-- changing name to perseon from family -->
+      <select name="person" required>
         <option value=""  disabled selected>--Select--</option>
 		<?php foreach ($data as $row) {
 			$stmt = $db->prepare('SELECT firstname, lastname FROM personal_info WHERE person_id=:id');
@@ -76,7 +89,8 @@
 			#var_dump($data2);
 
 			?>
-		<option value= <?php echo $row["fid"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["fid"];}?> </option>
+      <!-- person_id from fid -->
+		<option value= <?php echo $row["person_id"]; ?> > <?php echo $data2[0]["firstname"]; echo " "; echo $data2[0]["lastname"]; echo " "; echo $row["person_id"];}?> </option>
       </select><br><br>
         <label for="noteTime">Note Time:</label>
         <input type="datetime-local"  name="noteTime" required />
@@ -186,8 +200,9 @@
 		$q->execute();
 		$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
 
-		$wat = $_POST['family'];
-		unset($_POST['family']);
+    //post from family to person
+		$wat = $_POST['person'];
+		unset($_POST['person']);
 		array_pop($table_fields);
 		$table_fields[13] = 'fid';
 		
@@ -208,8 +223,10 @@
 		}
 		
 		$temp = ':';
-		$temp .= "fid";
+		$temp .= "person_id"; //from fid
 		$params[$temp] = $wat;
+    $params["fid"] = NULL;
+
 		if(!empty($_FILES["filename"]["name"])){
 			$filename = $_FILES['filename']['name'];
 			$temp = explode(".", $_FILES["filename"]["name"]);
@@ -240,7 +257,15 @@
 
 			$stmt = $db->prepare($sql);
 
-			$stmt->execute($params);
+			//$stmt->execute($params);
+      $result = $stmt->execute($params);
+      verify_sql($stmt);
+      if($result) {
+        echo "<br>Progress notes submitted successfully";
+        }
+        else{
+            echo "<br>Progress notes submission error";
+        }
 
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 		}

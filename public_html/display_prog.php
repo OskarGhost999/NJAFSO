@@ -38,10 +38,7 @@
 			border-width: 2px;
 		}
 	</style>
-	
-	<div class="lead text-center">
-        <h1 class="display-4">Family Notes</h1>
-    </div>
+	<br><bh>Family Notes</bh><br>
 </html>
 
 <?php
@@ -52,8 +49,8 @@
 	if(!($_SESSION['role']>=0)){
 	header("Location: index.php");
 }
-	error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-	ini_set('display_errors', 1);
+	//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+	//ini_set('display_errors', 1);
 	require "config.php";
 	$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 	$db= new PDO($connection_string, $dbuser, $dbpass);
@@ -73,28 +70,34 @@
 			$col_name = ucwords(str_replace("_"," ",$col_name));
 			echo "<td>" .$col_name."</td>";
 			}
-		$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
+		//$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
+		$stmt = $db->prepare('SELECT person_id FROM personal_info WHERE user_id=:u_id');
 
 		$stmt->execute(['u_id' => intval($_SESSION["ID"])]);
 
 		$data = $stmt->fetchAll();
     
 		foreach ($data as $family_id){
-			$stmt = $db->prepare('SELECT * FROM progress_note WHERE f_id=:fam_id');
-			$stmt->execute(['fam_id' => $family_id[0]]);
+			$stmt = $db->prepare('SELECT * FROM progress_note WHERE person_id=:id');
+			$stmt->execute(['id' => $family_id[0]]);
 			$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			
 			$stmt = $db->prepare('SELECT firstname,lastname FROM personal_info WHERE person_id=:pers_id');
 			$stmt->execute(['pers_id' => $family_id['person_id']]);
 			$data3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			#var_dump($data3);
+			//var_dump($data3);
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-			#var_dump($data2);
+			//var_dump($data2);
 			
 			foreach($data2 as $row){
 				echo "<tr>";
+				if($data3!= null && $data3[0]['firstname']!=null){
 				echo "<td>" . $data3[0]['firstname'] . "</td>";
-				echo "<td>" . $data3[0]['lastname'] . "</td>";
+				echo "<td>" . $data3[0]['lastname'] . "</td>";}
+				else{
+					echo "<td></td>";
+					echo "<td></td>";
+				}
 				#var_dump($row);
 				array_pop($row);
 				array_pop($row);

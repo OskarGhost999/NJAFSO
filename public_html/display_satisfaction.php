@@ -79,7 +79,8 @@
 
 		try{
 			
-			$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
+			//$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
+			$stmt = $db->prepare("SELECT person_id from personal_info where user_id = :u_id");
 
 			$stmt->execute(['u_id' => intval($_SESSION["ID"])]);
 
@@ -89,7 +90,8 @@
 
 			foreach ($data as $family_id){
 				
-				$stmt = $db->prepare('SELECT * FROM survey WHERE f_id=:fam_id');
+				//$stmt = $db->prepare('SELECT * FROM survey WHERE f_id=:fam_id');
+				$stmt = $db->prepare('SELECT * FROM survey WHERE person_id=:fam_id');
 				$stmt->execute(['fam_id' => $family_id[0]]);
 				$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				
@@ -100,7 +102,7 @@
 				#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 				foreach ($data2 as $row){
 					echo "<tr>";
-					echo "<td>" . $data[0]["fid"] . "</td>";
+					echo "<td>" . $family_id["person_id"] . "</td>"; //from fid
 					echo "<td>" . $data3[0]["firstname"] . "</td>";
 					echo "<td>" . $data3[0]["lastname"] . "</td>";
 

@@ -13,7 +13,7 @@ if(!($_SESSION['role']>=0)){
 if(($_SESSION['role']==2)){
   header("Location: homesuper.php");
 }
-
+//echo "FSO_ID IS: " . $_SESSION["fso_id"]; 
 ?>
 
 <!DOCTYPE html>
@@ -166,7 +166,8 @@ if(($_SESSION['role']==2)){
 	#echo "<td> Assigned Employee </td>";
 	try{
 
-		$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
+		//$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id'); 
+        $stmt = $db->prepare('SELECT person_id FROM personal_info WHERE user_id=:u_id');
 		$stmt->execute(['u_id' => intval($_SESSION["ID"])]);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
@@ -181,14 +182,16 @@ if(($_SESSION['role']==2)){
 			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 			foreach ($data2 as $row){
 				echo "<tr>";
-				$stmt = $db->prepare('SELECT casenumber FROM cases WHERE fid=:id');
-				$stmt->execute(['id' => intval($family_id["fid"])]);
+				$stmt = $db->prepare('SELECT casenumber FROM cases WHERE person_id=:id');
+				$stmt->execute(['id' => intval($family_id["person_id"])]);
 				$data3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				#var_dump($data3);
 				#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
 
-				$url = "page2.php?fid=". $family_id["fid"];
-				echo "<td> <a href=\"$url\">" . $family_id["fid"] . " </a> </td>";
+				//$url = "page2.php?fid=". $family_id["fid"];
+				//echo "<td> <a href=\"$url\">" . $family_id["fid"] . " </a> </td>";
+				$url = "family-profile.php?fid=". $family_id["person_id"];
+				echo "<td> <a href=\"$url\">" . $family_id["person_id"] . " </a> </td>";
 
 				#echo "<td> <a href=\"page2.php?fid=$family_id[\"fid\"]\">" . $family_id["fid"] . " </a> </td>";
 				echo "<td>" . $row["firstname"] . "</td>";
