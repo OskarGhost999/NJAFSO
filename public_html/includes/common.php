@@ -67,6 +67,29 @@ class Common {
 	return false;
     }
 
+    public static function build_table($array){
+
+        $html = '<table>';
+
+        $html .= '<tr>';
+        foreach($array[0] as $key=>$value){
+                $col_name = ucwords(str_replace("_"," ",$key));
+                $html .= '<th>' . htmlspecialchars($col_name) . '</th>';
+            }
+        $html .= '</tr>';
+
+        foreach( $array as $key=>$value){
+            $html .= '<tr>';
+            foreach($value as $key2=>$value2){
+                $html .= '<td>' . htmlspecialchars($value2) . '</td>';
+            }
+            $html .= '</tr>';
+        }
+
+        $html .= '</table>';
+        return $html;
+    }
+
 }
 $common = new Common();
 //make sure this is after we init common so it has access to it

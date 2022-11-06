@@ -1,5 +1,11 @@
 <?php
-      include_once('navbar.php');
+include_once('navbar.php');
+$search = "";
+$sort = " lastname DESC";
+if(isset($_POST["search"])){
+    $search = $_POST["search"];
+    $sort = $_POST["sort"];
+}
   ?>
 
 <html>
@@ -15,8 +21,15 @@
     padding: 10px;
     font-family: 'Poppins', sans-serif;
     } 
+
+    h4 {
+        padding-left: 10px;
+    }
+
+    body {
+        background-color: black;
+    }
   </style>
-  </body>
 
 	<header>
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/jumbotron/">
@@ -32,128 +45,73 @@
 	</head>
 	<style>
 		table{
-			border-color:#004060;
-			border-width: 3px;
+			//border: #004060 3px solid;
 		}
 		th, td{
 			padding: 8px;
 			border-width: 2px;
 		}
+        th {
+            padding: 12px;
+            background-color: rgb(140, 226, 255);
+            border-bottom: #004060 2px solid;
+            //border-right: #004060 1px solid; 
+        }
+
+        td {
+            //border-right: #004060 1px solid;  //not feeling it
+        }
+        
+        tr:nth-child(odd) {
+            background-color: rgb(218, 237, 255);
+        }
+
+        tr:hover {
+            background-color: rgb(140, 226, 255);
+            font-weight: 600;
+        }
+
+        tr:last-of-type {
+            border-bottom: 2px solid #004060;
+        }
+
 	</style>
-</div>
+
 </body>
 </html>
+<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-between" style="background-color: #36096d; background-image: linear-gradient(315deg, rgb(0,75,114), rgb(0,118,181), rgb(0,75,114));">
+    <a class="navbar-brand text-white"></a>
+    <form class="form-inline" method="POST">
+        <input class="form-control form-control-sm mr-sm-2" name="search" type="search"
+               placeholder="search records" aria-label="Search" value="<?php echo $search;?>">
+        <select class="form-control form-control-sm mr-sm-2" name="sort">
+            <option value="lastname ASC">Alphabetical A-Z</option>
+            <option value="lastname DESC">Alphabetical Z-A</option>
+            <option value="programstartdate DESC">Newest</option>
+            <option value="programstartdate ASC">Oldest</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-light btn-dark my-2 my-sm-0" value="Search"/>
+    </form>
+</nav>
 <split>
-	<div class="lead text-center">
-        <h1 class="display-4">Family Records</h1>
-    </div>
+<br><bh>Family Records</bh>
+<br><br>
 
 <?php
-
-	if(!(isset($_SESSION['role']))){
-  header("Location: index.php");
+$intake_records = array();
+if (isset($search)) {
+    $result = DBL::get_all_family_intake_records($search, $sort);
+    $_intake_records = Common::get($result, "data", false);
+    if($_intake_records){
+        $intake_records = $_intake_records;
+    } else {
+        echo "<h4> No records found. Try searching again.</h4>";
+        exit();
+    }
 }
-	if(!($_SESSION['role']>=0)){
-	header("Location: index.php");
-}
 
+$intake_records_table = Common::build_table($intake_records);
+echo $intake_records_table;
 
-		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-		ini_set('display_errors', 1);
-       require "config.php";
-       $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-       $db= new PDO($connection_string, $dbuser, $dbpass);
-	   
-	   echo "<br>";
-	   echo "<div class='col'>";
-	   echo "<table border='1'>";
-       try{
-		   
-		   
-		    $q = $db->prepare("DESCRIBE personal_info");
-			$q->execute();
-			$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-			array_pop($table_fields);
-			#unset($table_fields['address_id']);
-			foreach ($table_fields as $col_name) {
-				$col_name = ucwords(str_replace("_"," ",$col_name));
-				echo "<td>" .$col_name."</td>";
-				}
-				
-			$q = $db->prepare("DESCRIBE address");
-			$q->execute();
-			$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-			array_pop($table_fields);
-			array_pop($table_fields);
-			#unset($table_fields['address_id']);
-			foreach ($table_fields as $col_name) {
-				$col_name = ucwords(str_replace("_"," ",$col_name));
-				echo "<td>" .$col_name."</td>";
-				}
+?>
 
-			$q = $db->prepare("DESCRIBE family");
-			$q->execute();
-			$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-			array_pop($table_fields);
-			array_pop($table_fields);
-			#array_pop($table_fields);
-			foreach ($table_fields as $col_name) {
-				$col_name = ucwords(str_replace("_"," ",$col_name));
-				echo "<td>" .$col_name."</td>";
-				}
-
-				echo "<td> Case Number </td>";
-				echo "<td> Program start date </td>";
-				echo "<td> Care manager </td>";
-				echo "<td> DYFScontact </td>";
-
-			$stmt = $db->prepare('SELECT * FROM family WHERE uid=:u_id');
-
-			$stmt->execute(['u_id' => intval($_SESSION["ID"])]);
-
-			$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			
-			#var_dump($data);
-			
-			$counter = 0;
-			foreach ($data as $row) {
-				$stmt = $db->prepare('SELECT * FROM personal_info WHERE person_id=:pers_id');
-				$stmt->execute(['pers_id' => $row['person_id']]);
-				$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				unset($data2[0]['person_id']);
-				echo "<tr>";
-				foreach ($data2[0] as $value){
-						 echo "<td>" . $value . "</td>";
-				  }
-				  
-				$stmt = $db->prepare('SELECT * FROM address WHERE address_id=:address_id');
-				$stmt->execute(['address_id' => $row['address_id']]);
-				$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				unset($data2[0]['address_id']);
-				unset($data2[0]['county']);
-				foreach ($data2[0] as $value){
-						 echo "<td>" . $value . "</td>";
-				  } 
-				unset($row['address_id']);
-				unset($row['person_id']);
-				#var_dump($row);
-				foreach ($row as $value){
-						 echo "<td>" . $value . "</td>";
-				  }
-
-				$stmt1 = $db->prepare('SELECT casenumber,programstartdate,caremanager,dyfscontact FROM cases where fid = ?');
-				$stmt1->execute([$row['fid']]);
-				$data = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($data as $row1){
-					foreach ($row1 as $value1)
-					echo "<td>" . $value1 . "</td>";
-					}
-				echo "</tr>";
-				$counter++;
-			   }
-		    }
-		catch(Exception $e){
-			echo $e->getMessage();
-			exit();
-		}
-    ?>

@@ -1,11 +1,17 @@
 <?php
-      include_once('navbar.php');
-  ?>
+include_once('navbar.php');
+$search = "";
+$sort = " id ASC";
+if(isset($_POST["search"])){
+    $search = $_POST["search"];
+    $sort = $_POST["sort"];
+}
+?>
 
 <html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <style>
     bh{
@@ -15,7 +21,16 @@
     padding: 10px;
     font-family: 'Poppins', sans-serif;
     } 
+
+    h4 {
+        padding-left: 10px;
+    }
+
+    body {
+        background-color: black;
+    }
   </style>
+
 	<header>
 	<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/jumbotron/">
 
@@ -30,98 +45,74 @@
 	</head>
 	<style>
 		table{
-			border-color:#004060;
-			border-width: 3px;
+			//border: #004060 3px solid;
 		}
 		th, td{
 			padding: 8px;
 			border-width: 2px;
 		}
+        th {
+            padding: 12px;
+            background-color: rgb(140, 226, 255);
+            border-bottom: #004060 2px solid;
+            //border-right: #004060 1px solid; 
+        }
+
+        td {
+            //border-right: #004060 1px solid;  //not feeling it
+        }
+        
+        tr:nth-child(odd) {
+            background-color: rgb(218, 237, 255);
+        }
+
+        tr:hover {
+            background-color: rgb(140, 226, 255);
+            font-weight: 600;
+        }
+
+        tr:last-of-type {
+            border-bottom: 2px solid #004060;
+        }
+
 	</style>
-	<br><bh>Family Notes</bh><br>
+
+</body>
 </html>
+<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-between" style="background-color: #36096d; background-image: linear-gradient(315deg, rgb(0,75,114), rgb(0,118,181), rgb(0,75,114));">
+    <a class="navbar-brand text-white"></a>
+    <form class="form-inline" method="POST">
+        <input class="form-control form-control-sm mr-sm-2" name="search" type="search"
+               placeholder="search records" aria-label="Search" value="<?php echo $search;?>">
+        <select class="form-control form-control-sm mr-sm-2" name="sort">
+            <option value="lastname ASC">Alphabetical A-Z</option>
+            <option value="lastname DESC">Alphabetical Z-A</option>
+            <option value="note_date DESC">Newest</option>
+            <option value="note_date ASC">Oldest</option>
+        </select>
+        <input type="submit" class="btn btn-sm btn-outline-light btn-dark my-2 my-sm-0" value="Search"/>
+    </form>
+</nav>
+<split>
+<br><bh>Family Progress Notes</bh>
+<br><br>
 
 <?php
-
-	if(!(isset($_SESSION['role']))){
-  header("Location: index.php");
+$progress_notes = array();
+if (isset($search)) {
+    $result = DBL::get_all_progress_notes($search, $sort);
+    $_progress_notes = Common::get($result, "data", false);
+    if($_progress_notes){
+        $progress_notes = $_progress_notes;
+    } else {
+		//var_export($result);
+        echo "<h4> No progress notes found. Try searching again.</h4>";
+        exit();
+    }
 }
-	if(!($_SESSION['role']>=0)){
-	header("Location: index.php");
-}
-	//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-	//ini_set('display_errors', 1);
-	require "config.php";
-	$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-	$db= new PDO($connection_string, $dbuser, $dbpass);
-	#$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
-	echo "<br>";
-	echo "<div class='col'>";
-	echo "<table id='tbl' border='1'>";
-	try{
-		echo "<td>First name</td>";
-		echo "<td>Last name</td>";
-		$q = $db->prepare("DESCRIBE progress_note");
-		$q->execute();
-		$table_fields = $q->fetchAll(PDO::FETCH_COLUMN);
-		array_pop($table_fields);
-		array_pop($table_fields);
-		foreach ($table_fields as $col_name) {
-			$col_name = ucwords(str_replace("_"," ",$col_name));
-			echo "<td>" .$col_name."</td>";
-			}
-		//$stmt = $db->prepare('SELECT fid,person_id FROM family WHERE uid=:u_id');
-		$stmt = $db->prepare('SELECT person_id FROM personal_info WHERE user_id=:u_id');
 
-		$stmt->execute(['u_id' => intval($_SESSION["ID"])]);
+$progress_notes_table = Common::build_table($progress_notes);
+echo $progress_notes_table;
 
-		$data = $stmt->fetchAll();
-    
-		foreach ($data as $family_id){
-			$stmt = $db->prepare('SELECT * FROM progress_note WHERE person_id=:id');
-			$stmt->execute(['id' => $family_id[0]]);
-			$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			
-			$stmt = $db->prepare('SELECT firstname,lastname FROM personal_info WHERE person_id=:pers_id');
-			$stmt->execute(['pers_id' => $family_id['person_id']]);
-			$data3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			//var_dump($data3);
-			#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-			//var_dump($data2);
-			
-			foreach($data2 as $row){
-				echo "<tr>";
-				if($data3!= null && $data3[0]['firstname']!=null){
-				echo "<td>" . $data3[0]['firstname'] . "</td>";
-				echo "<td>" . $data3[0]['lastname'] . "</td>";}
-				else{
-					echo "<td></td>";
-					echo "<td></td>";
-				}
-				#var_dump($row);
-				array_pop($row);
-				array_pop($row);
-				$stmt = $db->prepare('SELECT * FROM file_info WHERE id=:file_id');
-				$stmt->execute(['file_id' => $row['file_id']]);
-				$data3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				unset($row['file_id']);
-				foreach ($row as $value){
-					
-					echo "<td>" . $value . "</td>";
-			  }
-			  
-			  #var_dump($data3);
-			  echo "<td>";
-			  if ($data3 != NULL){
-			  ?> <html> <a href=<?php echo "/" . $data3[0]['path']; ?> download=<?php echo $data3[0]['original_name'];?>><?php echo $data3[0]['original_name'];?></a> </html>
-			  <?php			}
-			}
-		}
-			
-	}
-			
-	   catch(Exception $e){
-			echo $e->getMessage();
-			exit();
-	   }
 ?>
+

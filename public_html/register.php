@@ -26,7 +26,21 @@
     } 
   </style>
   <?php
+  ini_set('display_errors',1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
       include_once('navbar.php');
+    function verify_sql($stmt){
+      if(!isset($stmt)){
+          throw new Exception("stmt object is undefined");
+      }
+      $e = $stmt->errorInfo();
+      if($e[0] != '00000'){
+          $error = var_export($e, true);
+          error_log($error);
+          throw new Exception("SQL Error: $error");
+      }
+  }
   ?>
   <body style="background-color: #f5f1dff2;">
     <br>
@@ -79,39 +93,58 @@
   </body>
 </html>
 <?php
-//ini_set('display_errors',1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-
-if(        isset($_POST['username'])
-        && isset($_POST['password'])
-        ){
-        $pass = $_POST['password'];
-        //let's hash it
-        $pass = password_hash($pass, PASSWORD_BCRYPT);
-        //echo "<br>$pass<br>";
-        //it's hashed
-        require("config.php");
-        $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-        try {
-              $db = new PDO($connection_string, $dbuser, $dbpass);
-              $stmt = $db->prepare("INSERT INTO `personal_info` 
-      					VALUES (:firstname, :lastname, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, :cell_phone, DEFAULT, DEFAULT)");
-              $params = array(":firstname"=> $_POST['FName'], ":lastname"=> $_POST['LName'], ":cell_phone"=> $_POST['cellPhone']);
-              $stmt->execute($params);
-              $id = intval($db->lastInsertId());
-              #echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-              
-              $stmt = $db->prepare("INSERT INTO `users` 
-				VALUES (:username, :password, :role, DEFAULT,:fso_id, :person_id)");
-              $username = $_POST['username'];
-              $params = array(":username"=> $username, ":password"=> $pass, ":role"=> $_POST["role"], ":fso_id"=> $_POST["FSO"], ":person_id"=>$id);
-              $stmt->execute($params);
-              #echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
-        }
-        catch(Exception $e){
-                echo $e->getMessage();
-                exit();
-        }
+if ($_POST) {
+	if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['FName']) && isset($_POST['LName']) 
+			&& isset($_POST['cellPhone']) && isset($_POST['role']) && isset($_POST['FSO'])) {
+			$pass = $_POST['password'];
+			//let's hash it
+			$pass = password_hash($pass, PASSWORD_BCRYPT);
+			//echo "<br>$pass<br>";
+			//it's hashed
+			require("config.php");
+			$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
+			try {
+				$db = new PDO($connection_string, $dbuser, $dbpass);
+				/*$stmt = $db->prepare("INSERT INTO `personal_info` 
+							VALUES (:firstname, :lastname, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, :cell_phone, DEFAULT, DEFAULT)");
+				$params = array(":firstname"=> $_POST['FName'], ":lastname"=> $_POST['LName'], ":cell_phone"=> $_POST['cellPhone']);
+				$stmt->execute($params);*/
+				$id = intval($db->lastInsertId());
+				#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
+				
+				$stmt = $db->prepare("INSERT INTO `users` (first_name, last_name, username, password, phone_number, role, fso_id)
+					VALUES (:first_name, :last_name, :username, :password, :phone_number, :role, :fso_id)");
+				$username = $_POST['username'];
+				$params = array(
+					":first_name"=> $_POST['FName'],
+					":last_name"=> $_POST['LName'],
+					":username"=> $username, 
+					":password"=> $pass, 
+					":phone_number"=> $_POST['cellPhone'],
+					":role"=> $_POST["role"], 
+					":fso_id"=> $_POST["FSO"]
+					);
+					
+				$result = $stmt->execute($params);
+				verify_sql($stmt);
+					if($result){
+					//echo "Registration successful";
+					Common::flash("Registration successful", "success");
+					}
+					else{
+					//echo "Registration unsuccessful";
+					Common::flash("Registration unsuccessful", "danger");
+					}
+				
+				#echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
+			}
+			catch(Exception $e){
+					echo $e->getMessage();
+					exit();
+			}
+	} else {
+		Common::flash("Fields must not be empty", "warning");
+	}
+	echo "<script> ; window.location.href='register.php'; </script>";
 }
 ?>
