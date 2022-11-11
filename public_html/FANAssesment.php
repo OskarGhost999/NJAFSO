@@ -48,7 +48,6 @@ $counter = 0;
     } 
   </style>
   <br>
-  <bh>Family Support: FANS Assesment</bh><br><br>
 <html lang="en" dir="ltr">
   <style media="screen">
     purple{
@@ -69,7 +68,13 @@ $counter = 0;
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
   <body style="background-color: #e0f5f5;">
+  <div class="lead text-center">
+    <h1 class="display-4">FANS Assesment Survey</h1>
+</div>
     <div class="col">
+    <div class="container">
+      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
+      <div class="card-body">
     <form class="form1" name="mainForm" id="mainForm" method="post" enctype="multipart/form-data">
 
 	<label>Select the Family:</label>
