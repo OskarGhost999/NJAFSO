@@ -87,11 +87,15 @@ $data = $stmt->fetchAll();
      }
   ?>
   <body>
+  <div class="lead text-center">
+    <h1 class="display-4">Satisfaction Survey</h1>
+</div>
     <div class="col">
+    <div class="container">
+      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
+      <div class="card-body">
     <form class ="form1" name="Intake" id="Intake" method="POST">
 <br>
-  <bh>Satsifaction Survey:</bh><br><br>   
-
       <label for="prompt">Select the Family:</label>
 	  <br>
     <!--changed select name value from family to person -->
