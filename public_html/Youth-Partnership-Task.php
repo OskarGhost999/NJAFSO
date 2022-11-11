@@ -82,7 +82,7 @@ if(isset($_POST) && !empty($_POST['date_task'])){
 </div>
   <div class="col">
     <div class="container">
-      <div class = "card" style="background-color: #7dcbd4; border-radius:25px">
+      <div class = "card" style="background-color: rgb(176, 226, 255)!important; border-radius:25px">
       <div class="card-body">
     <style>
     bh{
