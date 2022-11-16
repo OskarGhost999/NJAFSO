@@ -19,24 +19,6 @@ if (ini_get("session.use_cookies")) {
 // Finally, destroy the session.
 session_destroy();
 ?>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
-  </head>
-  <body style="background-color: #e0f5f5;">
-    <div id= container>
-      <font size="7">
-      <center><form name="loginform" id="myForm" method="POST"><br>
-                <br>
-          <br>
-          <br>
-          <br>
-          <center style="font-size: 50px; position: relative; color:black; font-family: 'Poppins', sans-serif;" > You have logged out.</center><br>
-          <button style="position: relative; bottom: 20px; padding: 40px 90px; font-size: 35px; font-family: 'Poppins', sans-serif;"class = "button" onclick="location.href = 'index.php';"
-            type="button" name="Login"> Log Back In!</button>
-  		</form></center>
-    </div>
-	</body>
-</html>
+<script type="text/javascript">
+  window.location.href="/index.php";
+</script>
