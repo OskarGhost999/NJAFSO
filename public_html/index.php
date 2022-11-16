@@ -15,38 +15,6 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 	<link rel = "stylesheet" href = "includes/styleTemplate.css">
     <style>
-		/* .button {
-			background-color: #0077B6;
-			border: 3px outset #ffc107;
-			color: white;
-			padding: 15px 19px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			font-family: 'Montserrat', sans-serif;
-			position: relative; top:0px;
-			background-repeat:no-repeat;
-			background-position:bottom left;
-			background-position:bottom left, top right, 0 0, 0 0;
-			background-clip:border-box;
-			-moz-border-radius:8px;
-			-webkit-border-radius:8px;
-			border-radius:8px;
-			-moz-box-shadow:0 0 1px #fff inset;
-			-webkit-box-shadow:0 0 1px #fff inset;
-			box-shadow:0 0 1px #fff inset;
-		} */
-		.label {
-			padding: 12px 12px 12px 0;
-			display: inline-block;
-		}
-		.Sub{
-			font-family: 'Montserrat'; 
-			font-size:30px;
-			color: #004060;
-			background-color: #F0EAD6;
-		} 
         .heart
         {
             position:absolute;
@@ -96,7 +64,7 @@
 			position: absolute;
 			margin: auto;
 			vertical-align: center;
-			padding: 5em;
+			padding: 3em;
 			border-radius: 1em;
 			background-color: rgba(255, 255, 255, 0.8);
 			color: black;
@@ -106,13 +74,6 @@
 			top: 50%;
 			left: 50%;
 		}
-		bh{
-            font-weight: regular;
-            margin-right: 10px;
-            font-size: 40px;
-            padding: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
 	</style>
 	<body>
 		<div class="h-100">
@@ -123,7 +84,7 @@
 			<div class="d-flex align-items-center justify-content-center text-center formarea">
 				<div class="card text-center">
 					<div class="card-body">
-						<bh>NJAFSO</bh>
+						<h1 class="display-4">NJAFSO</h1>
 						<form class="form" name="loginform" id="myForm" method="POST">
 							<h4>Login</h4>
 							<br>
