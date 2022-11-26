@@ -135,7 +135,7 @@
 		$db = new PDO($connection_string, $dbuser, $dbpass);
 
 		Try{
-			$stmt = $db->prepare("SELECT username, password, id, role from `users` where username = :username LIMIT 1");
+			$stmt = $db->prepare("SELECT username, password, id, role, fso_id from `users` where username = :username LIMIT 1");
 			$params = array(":username"=> $username);
 			$stmt->execute($params);
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -153,6 +153,7 @@
 			if(password_verify($pass, $userpassword)){
 				$_SESSION['role'] = $result['role'];
 				$_SESSION['ID'] = $result['id'];
+        			$_SESSION['fso_id'] = $result['fso_id'];
 				echo "<script> ; window.location.href='home.php'; </script>";
 				//echo'<html><script type="text/javascript">window.open("register.php","_self");</script></html>';
 				//header("Location: register.php");
