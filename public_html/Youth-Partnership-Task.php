@@ -7,48 +7,10 @@ require("config.php");
 $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
 $db = new PDO($connection_string, $dbuser, $dbpass);
 
-$stmt = $db->prepare('SELECT fso_id FROM users WHERE id=:u_id');
+$stmt = $db->prepare('SELECT id, first_name, last_name FROM users WHERE fso_id=:u_id');
 $stmt->execute(['u_id' => intval($_SESSION["ID"])]);
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$fso_id = $data[0]['fso_id'];
-
-$stmt = $db->prepare('SELECT person_id FROM users WHERE fso_id=:u_id');
-$stmt->execute(['u_id' => $fso_id]);
-$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$id_list = array_column($data, 'person_id');
-
-
-$select = 'SELECT firstname,lastname FROM personal_info WHERE person_id in ('.implode(',', $id_list).')';
-$stmt = $db->prepare($select);
-$stmt->execute();
-$data2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-if(isset($_POST) && !empty($_POST['date_task'])){
-	
-	$date_task = $_POST['date_task'];
-	$duration_hours = $_POST['duration_hours'];
-	$duration_minutes = $_POST['duration_minutes'];
-	$staff_id = $_POST['staff_id'];
-	$description = $_POST['description'];
-	
-	try{
-		$db = new PDO($connection_string, $dbuser, $dbpass);
-		
-		$sql = "INSERT INTO `YouthPartnershipTask` (`date_of_task`, `duration_hours`, `duration_minutes`, `staff_id`, `description`)";
-		$sql .= " VALUES('$date_task', '$duration_hours', '$duration_minutes', '$staff_id', '$description')";
-		
-		if($db->query($sql)) {
-			$success = "Success";
-		} else {
-			$error = "Error";
-		}
-		
-    }
-     catch(Exception $e){
-          echo $e->getMessage();
-             exit();
-     }
-	}
+var_dump($data);
  ?>
 <html lang="en" dir="ltr">
 <style media="screen">
@@ -76,14 +38,12 @@ if(isset($_POST) && !empty($_POST['date_task'])){
 <?php
     include_once('navbar.php');
 ?>
-<body>
-<div class="lead text-center">
-    <h1 class="display-4">Youth Partnership Tasks</h1>
+<body style="background-color: #e0f5f5;">
+  <div class="card cCenter text-center">
+    <h1 class="display-4">Youth Partnership Task</h1>
 </div>
-  <div class="col">
-    <div class="container">
-      <div class = "card" style="background-color: rgb(176, 226, 255)!important; border-radius:25px">
-      <div class="card-body">
+    <div class="card cCenter">
+
     <style>
     bh{
     font-weight: normal;
@@ -92,31 +52,39 @@ if(isset($_POST) && !empty($_POST['date_task'])){
     padding: 0px;
     font-family: 'Poppins', sans-serif;
     } 
+    .cCenter {
+    	    margin: auto;
+    	    width: 65%;
+    	}
+    	
+		.card {
+			background-color: rgb(176, 226, 255)!important;
+		} 
   </style>
   <br>
   <br>
     <form name="mainForm" method="post">
-      <label for="Date of Task">Date of Task:</label>
+      <label for="date_task">Date of Task:</label>
       <input type="date" name="date_task"required>
       <br>
       <label for="Task Duration">Task Duration:</label>
       <input type="number" name="duration_hours" placeholder="Hours"required>
-      <input type="number" name="duration_hours" placeholder="Minutes"required><br><br>
-      <label for="Staff">Staff:</label>
+      <input type="number" name="duration_minutes" placeholder="Minutes"required><br><br>
+      <label for="staff_id">Staff:</label>
 	    <select name="staff_id">
       <option disabled selected>--Select--</option>
 		    <?php
-		    foreach($data2 as $staff) {
+		    foreach($data as $staff) {
             var_dump($staff);
 			    ?>
-		    <option value="<?=$staff['person_id']?>"><?php echo $staff['firstname'] . ' ' . $staff['lastname'];?></option>
+		    <option value="<?=$staff['id']?>"><?php echo $staff['first_name'] . ' ' . $staff['last_name'];?></option>
 		    <?php
 		    } 
 		    ?>
 	    </select>
       <br>
-      <label for="Task Discription">Description of Task:<red>*</red></label><br>
-      <textarea form="mainForm" name="description" rows="5" cols="80"></textarea>
+      <label for="description">Description of Task:<red>*</red></label><br>
+      <textarea  name="description" rows="5" cols="80"></textarea>
       <br>
       <br>
       <input type="submit" value="Submit">
@@ -127,3 +95,36 @@ if(isset($_POST) && !empty($_POST['date_task'])){
   </body>
   
 </html>
+<?php
+  if(isset($_POST) && !empty($_POST['date_task'])){
+	
+                $date_task = $_POST['date_task'];
+                $duration_hours = $_POST['duration_hours'];
+                $duration_minutes = $_POST['duration_minutes'];
+                $staff_id = $_POST['staff_id'];
+                $description = $_POST['description'];
+              $duration_minutes = $duration_minutes/60;
+              $duration = $duration_hours+$duration_minutes;
+                
+                try{
+                    $stmts = $db->prepare("INSERT INTO `YouthPartnershipTask` VALUES(DEFAULT,:date_of_task, :duration, :staff_id, :description)");
+                $params = array(
+                  ":date_of_task"=>$_POST["date_task"],
+                  ":duration"=>$duration,
+                  ":staff_id"=>(int)$_POST["staff_id"],
+                  ":description"=>$_POST["description"]);
+                    $result = $stmts->execute($params);
+                    if($result){
+					        Common::flash("Successfully submitted", "success");
+					}
+					else{
+						Common::flash("Submission error", "danger");
+					}
+
+					} catch(Exception $e){
+							echo $e->getMessage();
+							exit();
+							}
+  }
+
+?>
